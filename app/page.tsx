@@ -1,26 +1,25 @@
 import { Metadata } from 'next';
+import { HeroSection } from '@/features/home/components/HeroSection';
+import { ServiceCategories } from '@/features/home/components/ServiceCategories';
+import { FeaturedTechnicians } from '@/features/home/components/FeaturedTechnicians';
+import { WhyBosker } from '@/features/home/components/WhyBosker';
+import { Testimonials } from '@/features/home/components/Testimonials';
+import { AppPromotion } from '@/features/home/components/AppPromotion';
 
 export const metadata: Metadata = {
   title: 'Home',
-  description: 'Welcome to Bosker - Your Beauty Services Platform',
+  description: 'Discover and book professional beauty services from certified technicians. Easy booking, transparent pricing, verified reviews.',
 };
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-primary-50 to-neutral-50">
-      <div className="container py-20">
-        <div className="text-center space-y-6">
-          <h1 className="text-5xl font-bold text-primary-600">
-            Welcome to Bosker
-          </h1>
-          <p className="text-xl text-neutral-600 max-w-2xl mx-auto">
-            Discover and book professional beauty services from talented technicians
-          </p>
-          <button className="px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-            Explore Services
-          </button>
-        </div>
-      </div>
-    </main>
+    <>
+      <HeroSection />
+      <ServiceCategories />
+      <FeaturedTechnicians />
+      <WhyBosker />
+      <Testimonials />
+      <AppPromotion />
+    </>
   );
 }
