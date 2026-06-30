@@ -11,12 +11,20 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "jsx": "react-jsx"
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
