@@ -29,8 +29,9 @@ export default function LoginPage() {
         {/* Demo Credentials */}
         <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700">
           <p className="font-semibold mb-2">Demo Credentials:</p>
-          <p>Email: demo@example.com</p>
-          <p>Password: demo1234</p>
+          <p>Customer: demo@example.com → client portal</p>
+          <p>Professional: tech@example.com → technician portal</p>
+          <p>Password: demo1234 (any password works in demo)</p>
         </div>
       </div>
     </main>

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Card, CardBody } from '@/components/Card';
 import { Button } from '@/components/Button';
 

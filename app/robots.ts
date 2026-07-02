@@ -6,7 +6,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/admin', '/(customer)'],
+        // Trailing slashes: robots.txt prefix-matches, and bare
+        // "/technician" would also block the public "/technicians" page.
+        disallow: ['/admin/', '/client/', '/technician/'],
       },
       {
         userAgent: 'Googlebot',

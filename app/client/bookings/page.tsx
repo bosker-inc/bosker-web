@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { Card, CardBody, CardHeader } from '@/components/Card';
+import { Card, CardBody } from '@/components/Card';
 import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 

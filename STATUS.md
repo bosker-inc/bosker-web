@@ -1,14 +1,29 @@
 # Bosker Web - Project Status
 
-**Last Updated:** June 30, 2026  
-**Current Phase:** Phase 3 Complete ✅  
-**Branch:** `claude/bosker-frontend-website-nwh0dh`
+**Last Updated:** July 2, 2026  
+**Current Phase:** Subdomain Portals Complete ✅  
+**Branch:** `main`
 
 ---
 
 ## 🎯 Project Overview
 
-A production-ready Next.js 15 beauty services marketplace with a complete landing page, public services directory, and customer portal.
+A production-ready Next.js 15 beauty services marketplace with a complete landing page, public services directory, and per-role portals on dedicated subdomains.
+
+## 🌐 Subdomain Architecture (New)
+
+One deployment, three surfaces (routed by `middleware.ts`):
+
+| Domain | Surface | Internal route |
+|---|---|---|
+| `bosker.app` | Marketing site | `app/(public)/*` |
+| `client.bosker.app` | Customer portal | `app/client/*` |
+| `technician.bosker.app` | Technician portal | `app/technician/*` |
+
+- Login/signup on the root domain redirect users by role (`customer` → client, `technician` → technician).
+- Direct hits to `bosker.app/client/*` or `/technician/*` redirect to the proper subdomain.
+- Local dev: `client.localhost:3000` / `technician.localhost:3000` work out of the box.
+- Technician portal pages: dashboard (stats + booking requests), bookings, profile, availability.
 
 ## ✅ Completed Phases
 

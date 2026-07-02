@@ -35,7 +35,6 @@ export function Toast({
   icon,
   dismissible = true,
   onDismiss,
-  duration = 4000,
 }: ToastProps) {
   return (
     <div

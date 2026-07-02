@@ -41,19 +41,17 @@ export function reportWebVital(metric: WebVitalMetric) {
 export function measureWebVitals() {
   if (typeof window === 'undefined') return;
 
-  // Try to use the Web Vitals library if available
-  try {
-    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
-      getCLS(reportWebVital);
-      getFID(reportWebVital);
-      getFCP(reportWebVital);
-      getLCP(reportWebVital);
-      getTTFB(reportWebVital);
+  import('web-vitals')
+    .then(({ onCLS, onINP, onFCP, onLCP, onTTFB }) => {
+      onCLS(reportWebVital);
+      onINP(reportWebVital);
+      onFCP(reportWebVital);
+      onLCP(reportWebVital);
+      onTTFB(reportWebVital);
+    })
+    .catch(() => {
+      console.log('Web Vitals library not available');
     });
-  } catch (e) {
-    // Web vitals not available, use fallback
-    console.log('Web Vitals library not available');
-  }
 }
 
 /**

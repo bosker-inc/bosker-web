@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema, type SignupInput } from '@/lib/validation';
 import { useAuth } from '@/hooks/useAuth';
+import { buildSubdomainUrl } from '@/lib/subdomain';
+import { cn } from '@/lib/utils';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
@@ -20,14 +22,18 @@ export function SignupForm() {
       email: '',
       password: '',
       confirmPassword: '',
+      role: 'customer',
     },
   });
+
+  const selectedRole = form.watch('role');
 
   const onSubmit = async (data: SignupInput) => {
     setError(null);
     try {
-      await signup(data.email, data.password, data.name);
-      // TODO: Redirect to dashboard
+      const user = await signup(data.email, data.password, data.name, data.role);
+      const portal = user.role === 'technician' ? 'technician' : 'client';
+      window.location.href = buildSubdomainUrl(portal, '/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Signup failed');
     }
@@ -40,6 +46,41 @@ export function SignupForm() {
           {error}
         </div>
       )}
+
+      {/* Role Selection */}
+      <div>
+        <p className="mb-2 text-sm font-semibold text-neutral-700">
+          I want to join as
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { value: 'customer', label: 'Customer', icon: '🙋', desc: 'Book services' },
+            { value: 'technician', label: 'Professional', icon: '💇', desc: 'Offer services' },
+          ].map((option) => (
+            <label
+              key={option.value}
+              className={cn(
+                'flex flex-col items-center gap-1 p-4 border-2 rounded-lg cursor-pointer transition-colors text-center',
+                selectedRole === option.value
+                  ? 'border-primary-600 bg-primary-50'
+                  : 'border-neutral-200 hover:border-neutral-300'
+              )}
+            >
+              <input
+                type="radio"
+                value={option.value}
+                {...form.register('role')}
+                className="sr-only"
+              />
+              <span className="text-2xl">{option.icon}</span>
+              <span className="font-semibold text-neutral-900">
+                {option.label}
+              </span>
+              <span className="text-xs text-neutral-600">{option.desc}</span>
+            </label>
+          ))}
+        </div>
+      </div>
 
       <Input
         label="Full Name"

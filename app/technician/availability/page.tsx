@@ -1,0 +1,36 @@
+import { Metadata } from 'next';
+import { Card, CardBody, CardHeader } from '@/components/Card';
+import { ScheduleEditor } from '@/features/technician-dashboard/components/ScheduleEditor';
+
+export const metadata: Metadata = {
+  title: 'Availability',
+  description: 'Manage your working hours and schedule',
+  robots: { index: false, follow: false },
+};
+
+export default function AvailabilityPage() {
+  return (
+    <main className="p-8 bg-neutral-50 min-h-screen">
+      <div className="max-w-2xl">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-neutral-900">Availability</h1>
+          <p className="text-neutral-600 mt-2">
+            Set your weekly working hours. Customers can only book within these
+            times.
+          </p>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <h2 className="text-xl font-semibold text-neutral-900">
+              Weekly Schedule
+            </h2>
+          </CardHeader>
+          <CardBody>
+            <ScheduleEditor />
+          </CardBody>
+        </Card>
+      </div>
+    </main>
+  );
+}

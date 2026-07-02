@@ -45,7 +45,11 @@ In the Vercel Project Settings → Environment Variables, add:
 ```
 NEXT_PUBLIC_APP_URL=https://your-domain.vercel.app
 NEXT_PUBLIC_BFF_URL=https://api.your-domain.com/graphql
+NEXT_PUBLIC_ROOT_DOMAIN=your-domain.com
 ```
+
+> `NEXT_PUBLIC_ROOT_DOMAIN` has **no protocol** — it drives the
+> subdomain routing in `middleware.ts` (see "Subdomain Setup" below).
 
 #### Optional Variables
 ```
@@ -286,7 +290,53 @@ git push origin main
 After adding custom domain:
 ```
 NEXT_PUBLIC_APP_URL=https://bosker.app
+NEXT_PUBLIC_ROOT_DOMAIN=bosker.app
 ```
+
+---
+
+## 🌐 Subdomain Setup (Client & Technician Portals)
+
+The app serves three surfaces from **one deployment** via `middleware.ts`:
+
+| Domain | Surface | Internal route |
+|---|---|---|
+| `bosker.app` | Marketing site | `app/(public)/*` |
+| `client.bosker.app` | Customer portal | `app/client/*` |
+| `technician.bosker.app` | Technician portal | `app/technician/*` |
+
+### Vercel Configuration
+1. Project Settings → Domains → add **all three**:
+   - `bosker.app`
+   - `client.bosker.app`
+   - `technician.bosker.app`
+2. All three point at the same project — no extra deploys needed.
+
+### DNS Records
+At your DNS provider:
+```
+bosker.app              A       76.76.21.21   (Vercel)
+client.bosker.app       CNAME   cname.vercel-dns.com
+technician.bosker.app   CNAME   cname.vercel-dns.com
+```
+
+### Environment Variable
+```
+NEXT_PUBLIC_ROOT_DOMAIN=bosker.app
+```
+Middleware uses this to detect which portal a request belongs to.
+
+### How Routing Works
+- `client.bosker.app/dashboard` → rewritten internally to `/client/dashboard` (URL stays clean)
+- `technician.bosker.app/bookings` → rewritten to `/technician/bookings`
+- `bosker.app/client/...` → **redirected** to `client.bosker.app/...` (no duplicate content)
+- Login/signup on the root domain redirect users to the right subdomain by role
+
+### Local Development
+No config needed — browsers resolve `*.localhost` natively:
+- Marketing: `http://localhost:3000`
+- Customer portal: `http://client.localhost:3000`
+- Technician portal: `http://technician.localhost:3000`
 
 ---
 

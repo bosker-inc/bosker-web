@@ -4,7 +4,6 @@ import { Card, CardBody } from '@/components/Card';
 import { Button } from '@/components/Button';
 
 export default function PublicError({
-  error,
   reset,
 }: {
   error: Error & { digest?: string };
@@ -21,7 +20,7 @@ export default function PublicError({
               Something went wrong
             </h1>
             <p className="text-neutral-600">
-              We're having trouble loading this page.
+              We&apos;re having trouble loading this page.
             </p>
           </div>
 

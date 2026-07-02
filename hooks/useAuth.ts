@@ -23,17 +23,18 @@ export function useAuth() {
     setIsInitialized(true);
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (email: string, _password: string) => {
     setIsLoading(true);
     setError(null);
 
     try {
       // TODO: Replace with actual GraphQL mutation
+      // Mock role detection: emails containing "tech" log in as technicians
       const mockUser: User = {
         id: '1',
         email,
         name: email.split('@')[0],
-        role: 'customer',
+        role: email.includes('tech') ? 'technician' : 'customer',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -46,6 +47,7 @@ export function useAuth() {
 
       localStorage.setItem('auth_session', JSON.stringify(session));
       setUser(mockUser);
+      return mockUser;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
       throw err;
@@ -54,7 +56,12 @@ export function useAuth() {
     }
   }, []);
 
-  const signup = useCallback(async (email: string, password: string, name: string) => {
+  const signup = useCallback(async (
+    email: string,
+    _password: string,
+    name: string,
+    role: User['role'] = 'customer'
+  ) => {
     setIsLoading(true);
     setError(null);
 
@@ -64,7 +71,7 @@ export function useAuth() {
         id: '1',
         email,
         name,
-        role: 'customer',
+        role,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -77,6 +84,7 @@ export function useAuth() {
 
       localStorage.setItem('auth_session', JSON.stringify(session));
       setUser(mockUser);
+      return mockUser;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Signup failed');
       throw err;

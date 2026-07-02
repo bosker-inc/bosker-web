@@ -40,10 +40,14 @@ export function Navigation() {
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="outline" size="sm">
-              Login
-            </Button>
-            <Button size="sm">Sign Up</Button>
+            <Link href="/login">
+              <Button variant="outline" size="sm">
+                Login
+              </Button>
+            </Link>
+            <Link href="/signup">
+              <Button size="sm">Sign Up</Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -86,12 +90,16 @@ export function Navigation() {
               </Link>
             ))}
             <div className="flex gap-2 pt-2">
-              <Button variant="outline" size="sm" fullWidth>
-                Login
-              </Button>
-              <Button size="sm" fullWidth>
-                Sign Up
-              </Button>
+              <Link href="/login" className="flex-1" onClick={() => setIsOpen(false)}>
+                <Button variant="outline" size="sm" fullWidth>
+                  Login
+                </Button>
+              </Link>
+              <Link href="/signup" className="flex-1" onClick={() => setIsOpen(false)}>
+                <Button size="sm" fullWidth>
+                  Sign Up
+                </Button>
+              </Link>
             </div>
           </div>
         )}

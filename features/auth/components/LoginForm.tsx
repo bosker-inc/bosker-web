@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema, type LoginInput } from '@/lib/validation';
 import { useAuth } from '@/hooks/useAuth';
+import { buildSubdomainUrl } from '@/lib/subdomain';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
 import Link from 'next/link';
@@ -24,8 +25,9 @@ export function LoginForm() {
   const onSubmit = async (data: LoginInput) => {
     setError(null);
     try {
-      await login(data.email, data.password);
-      // TODO: Redirect to dashboard
+      const user = await login(data.email, data.password);
+      const portal = user.role === 'technician' ? 'technician' : 'client';
+      window.location.href = buildSubdomainUrl(portal, '/dashboard');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     }

@@ -3,8 +3,7 @@
 import { Card, CardBody } from '@/components/Card';
 import { Button } from '@/components/Button';
 
-export default function CustomerError({
-  error,
+export default function TechnicianError({
   reset,
 }: {
   error: Error & { digest?: string };
