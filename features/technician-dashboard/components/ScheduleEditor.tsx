@@ -45,8 +45,8 @@ export function ScheduleEditor() {
           className={cn(
             'flex items-center gap-4 p-4 rounded-lg border transition-colors',
             daySchedule.enabled
-              ? 'border-neutral-200 bg-white'
-              : 'border-neutral-100 bg-neutral-50'
+              ? 'border-border bg-surface'
+              : 'border-border bg-surface-2'
           )}
         >
           <label className="flex items-center gap-3 w-36">
@@ -61,7 +61,7 @@ export function ScheduleEditor() {
             <span
               className={cn(
                 'font-semibold',
-                daySchedule.enabled ? 'text-neutral-900' : 'text-neutral-400'
+                daySchedule.enabled ? 'text-fg' : 'text-muted'
               )}
             >
               {daySchedule.day}
@@ -74,18 +74,18 @@ export function ScheduleEditor() {
                 type="time"
                 value={daySchedule.start}
                 onChange={(e) => updateDay(index, { start: e.target.value })}
-                className="border border-neutral-300 rounded-lg px-3 py-2 text-sm"
+                className="border border-border rounded-lg px-3 py-2 text-sm"
               />
-              <span className="text-neutral-500">to</span>
+              <span className="text-muted">to</span>
               <input
                 type="time"
                 value={daySchedule.end}
                 onChange={(e) => updateDay(index, { end: e.target.value })}
-                className="border border-neutral-300 rounded-lg px-3 py-2 text-sm"
+                className="border border-border rounded-lg px-3 py-2 text-sm"
               />
             </div>
           ) : (
-            <span className="text-sm text-neutral-400">Unavailable</span>
+            <span className="text-sm text-muted">Unavailable</span>
           )}
         </div>
       ))}
@@ -93,7 +93,7 @@ export function ScheduleEditor() {
       <div className="flex items-center gap-4 pt-2">
         <Button onClick={handleSave}>Save Schedule</Button>
         {saved && (
-          <span className="text-sm text-green-600 font-semibold">
+          <span className="text-sm text-success font-semibold">
             ✓ Schedule saved
           </span>
         )}

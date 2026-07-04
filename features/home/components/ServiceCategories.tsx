@@ -4,6 +4,7 @@ import { Reveal } from '@/components/motion/Reveal';
 import { StaggerGroup } from '@/components/motion/StaggerGroup';
 import { StaggerItem } from '@/components/motion/StaggerItem';
 import { MotionImage } from '@/components/motion/MotionImage';
+import { SectionHeading } from '@/components/SectionHeading';
 import { getServiceImage } from '@/lib/images';
 
 const SERVICES = [
@@ -47,16 +48,14 @@ const SERVICES = [
 
 export function ServiceCategories() {
   return (
-    <section className="py-20 md:py-32 bg-neutral-50">
+    <section className="py-20 md:py-32 bg-surface-2">
       <div className="container">
-        <Reveal className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
-            Popular Services
-          </h2>
-          <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-            Browse through our wide range of beauty services performed by
-            certified professionals
-          </p>
+        <Reveal className="mb-16">
+          <SectionHeading
+            eyebrow="Services"
+            title="Popular Services"
+            subtitle="Browse through our wide range of beauty services performed by certified professionals"
+          />
         </Reveal>
 
         <StaggerGroup className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -75,14 +74,14 @@ export function ServiceCategories() {
                   />
                   <CardBody className="space-y-3">
                     <div>
-                      <h3 className="text-xl font-semibold text-neutral-900">
+                      <h3 className="text-xl font-semibold text-fg">
                         {service.name}
                       </h3>
-                      <p className="text-neutral-600 text-sm mt-1">
+                      <p className="text-muted text-sm mt-1">
                         {service.description}
                       </p>
                     </div>
-                    <div className="text-sm text-primary-600 font-semibold">
+                    <div className="text-sm text-accent font-semibold">
                       {service.count} Professionals
                     </div>
                   </CardBody>
@@ -95,7 +94,7 @@ export function ServiceCategories() {
         <div className="text-center mt-12">
           <Link
             href="/services"
-            className="text-primary-600 hover:text-primary-700 font-semibold"
+            className="text-accent hover:text-accent font-semibold"
           >
             View All Services →
           </Link>

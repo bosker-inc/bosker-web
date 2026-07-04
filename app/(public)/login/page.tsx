@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-primary-50 to-neutral-50 py-12">
+    <main className="min-h-screen bg-surface-2 bg-mesh py-12">
       <div className="container max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="text-3xl font-bold text-primary-600 mb-4 inline-block">
+          <Link href="/" className="h1 text-accent mb-4 inline-block">
             Bosker
           </Link>
-          <h1 className="text-3xl font-bold text-neutral-900">Welcome Back</h1>
-          <p className="text-neutral-600 mt-2">Sign in to your account</p>
+          <h1 className="h1 text-fg">Welcome Back</h1>
+          <p className="text-muted mt-2">Sign in to your account</p>
         </div>
 
         <Card>

@@ -64,13 +64,13 @@ export function Testimonials() {
   const testimonial = TESTIMONIALS[activeIdx];
 
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-br from-primary-50 to-white">
+    <section className="py-20 md:py-32 bg-surface-2 bg-mesh">
       <div className="container">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+          <h2 className="h2 text-fg mb-4">
             What People Say
           </h2>
-          <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+          <p className="text-lg text-muted max-w-2xl mx-auto">
             Join thousands of satisfied customers and professionals
           </p>
         </div>
@@ -80,7 +80,7 @@ export function Testimonials() {
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
         >
-          <Card className="border-2 border-primary-200 overflow-hidden">
+          <Card className="border-2 border-accent/30 overflow-hidden">
             <CardBody className="py-12 px-8">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -91,7 +91,7 @@ export function Testimonials() {
                   exit={{ opacity: 0, x: reduce ? 0 : -40 }}
                   transition={{ duration: 0.4, ease: 'easeInOut' }}
                 >
-                  <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-4 ring-primary-100">
+                  <div className="mx-auto h-20 w-20 overflow-hidden rounded-full ring-4 ring-accent/20">
                     <OptimizedImage
                       src={TESTIMONIAL_AVATARS[activeIdx]}
                       alt={testimonial.name}
@@ -110,16 +110,16 @@ export function Testimonials() {
                         </span>
                       ))}
                     </div>
-                    <p className="text-xl text-neutral-700 italic">
+                    <p className="text-xl text-fg italic">
                       &ldquo;{testimonial.text}&rdquo;
                     </p>
                   </div>
 
                   <div>
-                    <p className="font-semibold text-neutral-900">
+                    <p className="font-semibold text-fg">
                       {testimonial.name}
                     </p>
-                    <p className="text-sm text-primary-600">
+                    <p className="text-sm text-accent">
                       {testimonial.role}
                     </p>
                   </div>
@@ -142,7 +142,7 @@ export function Testimonials() {
                   aria-label={`Go to testimonial ${idx + 1}`}
                   className={`h-3 rounded-full transition-all ${
                     idx === activeIdx
-                      ? 'w-8 bg-primary-600'
+                      ? 'w-8 bg-accent'
                       : 'w-3 bg-neutral-300 hover:bg-neutral-400'
                   }`}
                 />

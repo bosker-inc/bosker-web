@@ -16,23 +16,23 @@ export default function Error({
   }, [error]);
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-red-50 to-neutral-50 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-surface-2 flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <CardBody className="text-center space-y-6 py-12">
           <div className="text-6xl">⚠️</div>
 
           <div>
-            <h1 className="text-3xl font-bold text-neutral-900 mb-2">
+            <h1 className="h1 text-fg mb-2">
               Oops! Something went wrong
             </h1>
-            <p className="text-neutral-600">
+            <p className="text-muted">
               We encountered an unexpected error. Please try again.
             </p>
           </div>
 
           {process.env.NODE_ENV === 'development' && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-left">
-              <p className="text-xs text-red-600 font-mono break-words">
+            <div className="bg-danger/10 border border-danger/30 rounded-lg p-4 text-left">
+              <p className="text-xs text-danger font-mono break-words">
                 {error.message}
               </p>
             </div>

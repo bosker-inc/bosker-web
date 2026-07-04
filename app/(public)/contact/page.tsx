@@ -15,12 +15,12 @@ export default function ContactPage() {
   return (
     <main>
       {/* Header */}
-      <section className="bg-gradient-to-br from-primary-50 to-neutral-50 py-12">
+      <section className="bg-surface-2 bg-mesh py-12">
         <div className="container">
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+          <h1 className="h1 text-fg mb-4">
             Get in Touch
           </h1>
-          <p className="text-lg text-neutral-600">
+          <p className="text-lg text-muted">
             Have questions? We&apos;d love to hear from you
           </p>
         </div>
@@ -85,10 +85,10 @@ export default function ContactPage() {
             ].map((item, i) => (
               <StaggerItem key={i} className="text-center">
                 <div className="text-4xl mb-3">{item.icon}</div>
-                <h3 className="font-semibold text-neutral-900 mb-1">
+                <h3 className="font-semibold text-fg mb-1">
                   {item.title}
                 </h3>
-                <p className="text-neutral-600">{item.value}</p>
+                <p className="text-muted">{item.value}</p>
               </StaggerItem>
             ))}
           </StaggerGroup>

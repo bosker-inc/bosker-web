@@ -29,15 +29,15 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 via-white to-primary-100 py-20 md:py-28">
+    <section className="relative overflow-hidden bg-bg bg-mesh py-20 md:py-28">
       {/* Decorative animated blobs */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-primary-300/40 blur-3xl animate-blob"
+        className="pointer-events-none absolute -top-24 -left-24 h-96 w-96 rounded-full bg-accent/25 blur-3xl animate-blob"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-32 right-0 h-96 w-96 rounded-full bg-primary-400/30 blur-3xl animate-float"
+        className="pointer-events-none absolute -bottom-32 right-0 h-96 w-96 rounded-full bg-accent-strong/20 blur-3xl animate-float"
       />
 
       <div className="container relative">
@@ -51,22 +51,19 @@ export function HeroSection() {
           >
             <motion.span
               variants={item}
-              className="inline-block rounded-full bg-primary-100 px-4 py-1.5 text-sm font-semibold text-primary-700"
+              className="inline-flex items-center gap-2 rounded-full bg-accent/15 px-4 py-1.5 text-sm font-semibold text-accent"
             >
               ✨ Beauty, booked in seconds
             </motion.span>
 
-            <motion.h1
-              variants={item}
-              className="text-4xl font-bold leading-tight text-neutral-900 md:text-6xl"
-            >
+            <motion.h1 variants={item} className="text-display text-fg">
               Discover & Book{' '}
-              <span className="text-primary-600">Beauty Services</span>
+              <span className="text-accent">Beauty Services</span>
             </motion.h1>
 
             <motion.p
               variants={item}
-              className="text-lg text-neutral-600 md:text-xl"
+              className="text-lg text-muted md:text-xl"
             >
               Connect with professional beauty technicians. From nail care to
               hair styling, find the perfect service and expert near you.
@@ -85,7 +82,7 @@ export function HeroSection() {
             {/* Trust Indicators */}
             <motion.div
               variants={item}
-              className="mt-8 flex flex-col items-center gap-6 border-t border-neutral-200 pt-8 text-sm text-neutral-600 sm:flex-row lg:justify-start"
+              className="mt-8 flex flex-col items-center gap-6 border-t border-border pt-8 text-sm text-muted sm:flex-row lg:justify-start"
             >
               {TRUST.map((t) => (
                 <div key={t.label} className="flex items-center gap-2">
@@ -116,7 +113,7 @@ export function HeroSection() {
 
             {/* Floating rating badge */}
             <motion.div
-              className="absolute -bottom-5 -left-5 hidden rounded-2xl bg-white px-5 py-4 shadow-xl sm:block"
+              className="absolute -bottom-5 -left-5 hidden rounded-2xl bg-surface px-5 py-4 shadow-xl sm:block"
               initial={{ opacity: 0, y: reduce ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
@@ -124,8 +121,8 @@ export function HeroSection() {
               <div className="flex items-center gap-3">
                 <span className="text-3xl">💜</span>
                 <div>
-                  <p className="text-lg font-bold text-neutral-900">4.9/5</p>
-                  <p className="text-xs text-neutral-500">12,000+ reviews</p>
+                  <p className="text-lg font-bold text-fg">4.9/5</p>
+                  <p className="text-xs text-muted">12,000+ reviews</p>
                 </div>
               </div>
             </motion.div>

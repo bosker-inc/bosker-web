@@ -30,11 +30,11 @@ export function BookingRequestCard({ request }: BookingRequestCardProps) {
           <div className="flex items-center gap-4">
             <div className="text-4xl">{request.customerAvatar}</div>
             <div>
-              <h3 className="font-semibold text-neutral-900">
+              <h3 className="font-semibold text-fg">
                 {request.customerName}
               </h3>
-              <p className="text-sm text-neutral-600">{request.service}</p>
-              <p className="text-sm text-neutral-500 mt-1">
+              <p className="text-sm text-muted">{request.service}</p>
+              <p className="text-sm text-muted mt-1">
                 {request.date} • {request.price}
               </p>
             </div>

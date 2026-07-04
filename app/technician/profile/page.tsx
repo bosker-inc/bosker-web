@@ -26,11 +26,11 @@ const CERTIFICATIONS = [
 
 export default function TechnicianProfilePage() {
   return (
-    <main className="p-8 bg-neutral-50 min-h-screen">
+    <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-2xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-neutral-900">My Profile</h1>
-          <p className="text-neutral-600 mt-2">
+          <h1 className="h1 text-fg">My Profile</h1>
+          <p className="text-muted mt-2">
             This is what customers see when they find you on Bosker
           </p>
         </div>
@@ -38,7 +38,7 @@ export default function TechnicianProfilePage() {
         {/* Public Info */}
         <Card>
           <CardHeader>
-            <h2 className="text-xl font-semibold text-neutral-900">
+            <h2 className="text-xl font-semibold text-fg">
               Public Information
             </h2>
           </CardHeader>
@@ -79,7 +79,7 @@ export default function TechnicianProfilePage() {
         {/* Services */}
         <Card className="mt-6">
           <CardHeader>
-            <h2 className="text-xl font-semibold text-neutral-900">
+            <h2 className="text-xl font-semibold text-fg">
               Services Offered
             </h2>
           </CardHeader>
@@ -101,7 +101,7 @@ export default function TechnicianProfilePage() {
         {/* Certifications */}
         <Card className="mt-6">
           <CardHeader>
-            <h2 className="text-xl font-semibold text-neutral-900">
+            <h2 className="text-xl font-semibold text-fg">
               Certifications
             </h2>
           </CardHeader>
@@ -109,11 +109,11 @@ export default function TechnicianProfilePage() {
             {CERTIFICATIONS.map((cert) => (
               <div
                 key={cert}
-                className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg"
+                className="flex items-center justify-between p-3 bg-surface-2 rounded-lg"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-xl">🎓</span>
-                  <span className="text-neutral-900">{cert}</span>
+                  <span className="text-fg">{cert}</span>
                 </div>
                 <Button variant="ghost" size="sm">
                   Remove

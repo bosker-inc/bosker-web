@@ -50,24 +50,24 @@ const BOOKINGS = [
 
 export default function TechnicianBookingsPage() {
   return (
-    <main className="p-8 bg-neutral-50 min-h-screen">
+    <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-neutral-900">Bookings</h1>
-          <p className="text-neutral-600 mt-2">
+          <h1 className="h1 text-fg">Bookings</h1>
+          <p className="text-muted mt-2">
             Manage your customer appointments
           </p>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-neutral-200">
+        <div className="flex gap-4 mb-8 border-b border-border">
           {['All', 'Pending', 'Confirmed', 'Completed'].map((tab) => (
             <button
               key={tab}
               className={`px-4 py-3 font-semibold border-b-2 transition-colors ${
                 tab === 'All'
-                  ? 'border-primary-600 text-primary-600'
-                  : 'border-transparent text-neutral-600 hover:text-neutral-900'
+                  ? 'border-accent text-accent'
+                  : 'border-transparent text-muted hover:text-fg'
               }`}
             >
               {tab}
@@ -84,13 +84,13 @@ export default function TechnicianBookingsPage() {
                   <div className="flex items-center gap-4">
                     <div className="text-3xl">{booking.avatar}</div>
                     <div>
-                      <h3 className="font-semibold text-neutral-900">
+                      <h3 className="font-semibold text-fg">
                         {booking.service}
                       </h3>
-                      <p className="text-sm text-neutral-600">
+                      <p className="text-sm text-muted">
                         {booking.customer}
                       </p>
-                      <p className="text-sm text-neutral-500 mt-1">
+                      <p className="text-sm text-muted mt-1">
                         {booking.date}
                       </p>
                     </div>
@@ -98,7 +98,7 @@ export default function TechnicianBookingsPage() {
 
                   <div className="flex flex-col items-end gap-3">
                     <div className="text-right">
-                      <p className="font-semibold text-neutral-900">
+                      <p className="font-semibold text-fg">
                         {booking.price}
                       </p>
                       <Badge

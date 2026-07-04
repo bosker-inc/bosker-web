@@ -4,10 +4,12 @@ import { cn } from '@/lib/utils';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
   isLoading?: boolean;
   disabled?: boolean;
   fullWidth?: boolean;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
 }
 
 export function Button({
@@ -17,28 +19,30 @@ export function Button({
   isLoading = false,
   disabled = false,
   fullWidth = false,
+  leftIcon,
+  rightIcon,
   className,
   ...props
 }: ButtonProps) {
   const baseClasses =
-    'inline-flex items-center justify-center font-semibold rounded-lg transition-colors focus-ring disabled:opacity-50 disabled:cursor-not-allowed';
+    'inline-flex items-center justify-center gap-2 font-semibold rounded-lg transition-[background-color,color,box-shadow,transform] duration-150 focus-ring disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]';
 
   const variants = {
     primary:
-      'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800',
+      'bg-accent text-accent-fg shadow-soft hover:bg-accent-strong hover:shadow-raised',
     secondary:
-      'bg-neutral-200 text-neutral-900 hover:bg-neutral-300 active:bg-neutral-400',
+      'bg-surface-2 text-fg hover:bg-border/70 border border-border',
     outline:
-      'border-2 border-primary-600 text-primary-600 hover:bg-primary-50 active:bg-primary-100',
-    ghost:
-      'text-primary-600 hover:bg-primary-50 active:bg-primary-100 border border-transparent',
-    danger: 'bg-error text-white hover:bg-red-600 active:bg-red-700',
+      'border-2 border-accent text-accent hover:bg-accent/10',
+    ghost: 'text-accent hover:bg-accent/10 border border-transparent',
+    danger: 'bg-danger text-white hover:opacity-90 shadow-soft',
   };
 
   const sizes = {
     sm: 'px-3 py-2 text-sm',
     md: 'px-4 py-2.5 text-base',
     lg: 'px-6 py-3 text-lg',
+    xl: 'px-8 py-3.5 text-lg',
   };
 
   return (
@@ -56,7 +60,7 @@ export function Button({
       {isLoading ? (
         <>
           <svg
-            className="animate-spin -ml-1 mr-2 h-4 w-4"
+            className="animate-spin -ml-1 h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -78,7 +82,11 @@ export function Button({
           Loading...
         </>
       ) : (
-        children
+        <>
+          {leftIcon}
+          {children}
+          {rightIcon}
+        </>
       )}
     </button>
   );

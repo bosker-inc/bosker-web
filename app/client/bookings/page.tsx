@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Card, CardBody } from '@/components/Card';
 import { Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
+import { EmptyState } from '@/components/EmptyState';
 
 export const metadata: Metadata = {
   title: 'My Bookings',
@@ -45,22 +46,22 @@ export default function BookingsPage() {
   ];
 
   return (
-    <main className="p-8 bg-neutral-50 min-h-screen">
+    <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-neutral-900">My Bookings</h1>
-          <p className="text-neutral-600 mt-2">View and manage all your appointments</p>
+          <h1 className="h1 text-fg">My Bookings</h1>
+          <p className="text-muted mt-2">View and manage all your appointments</p>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-neutral-200">
+        <div className="flex gap-4 mb-8 border-b border-border">
           {['All', 'Upcoming', 'Completed', 'Cancelled'].map((tab) => (
             <button
               key={tab}
               className={`px-4 py-3 font-semibold border-b-2 transition-colors ${
                 tab === 'All'
-                  ? 'border-primary-600 text-primary-600'
-                  : 'border-transparent text-neutral-600 hover:text-neutral-900'
+                  ? 'border-accent text-accent'
+                  : 'border-transparent text-muted hover:text-fg'
               }`}
             >
               {tab}
@@ -79,13 +80,13 @@ export default function BookingsPage() {
                     <div className="flex items-center gap-4">
                       <div className="text-3xl">💇</div>
                       <div>
-                        <h3 className="font-semibold text-neutral-900">
+                        <h3 className="font-semibold text-fg">
                           {booking.service}
                         </h3>
-                        <p className="text-sm text-neutral-600">
+                        <p className="text-sm text-muted">
                           with {booking.professional}
                         </p>
-                        <p className="text-sm text-neutral-500 mt-1">
+                        <p className="text-sm text-muted mt-1">
                           {booking.date}
                         </p>
                       </div>
@@ -95,7 +96,7 @@ export default function BookingsPage() {
                   {/* Right Actions */}
                   <div className="flex flex-col items-end gap-3">
                     <div className="text-right">
-                      <p className="font-semibold text-neutral-900">
+                      <p className="font-semibold text-fg">
                         {booking.price}
                       </p>
                       <Badge
@@ -134,13 +135,11 @@ export default function BookingsPage() {
 
         {/* Empty State */}
         {bookings.length === 0 && (
-          <Card>
-            <CardBody className="text-center py-12">
-              <div className="text-6xl mb-4">📅</div>
-              <p className="text-neutral-600 mb-6">No bookings yet</p>
-              <Button>Book an Appointment</Button>
-            </CardBody>
-          </Card>
+          <EmptyState
+            title="No bookings yet"
+            description="When you book a service, your upcoming and past appointments will show up here."
+            action={<Button>Book an Appointment</Button>}
+          />
         )}
       </div>
     </main>

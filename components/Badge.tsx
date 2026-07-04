@@ -3,7 +3,14 @@ import { cn } from '@/lib/utils';
 
 interface BadgeProps {
   children: ReactNode;
-  variant?: 'primary' | 'success' | 'warning' | 'error' | 'info' | 'neutral';
+  variant?:
+    | 'primary'
+    | 'accent'
+    | 'success'
+    | 'warning'
+    | 'error'
+    | 'info'
+    | 'neutral';
   size?: 'sm' | 'md';
   className?: string;
 }
@@ -14,13 +21,15 @@ export function Badge({
   size = 'md',
   className,
 }: BadgeProps) {
+  // Theme-aware tints via token opacity; text stays legible in both modes.
   const variants = {
-    primary: 'bg-primary-100 text-primary-700',
-    success: 'bg-green-100 text-green-700',
-    warning: 'bg-yellow-100 text-yellow-700',
-    error: 'bg-red-100 text-red-700',
-    info: 'bg-blue-100 text-blue-700',
-    neutral: 'bg-neutral-200 text-neutral-700',
+    primary: 'bg-accent/15 text-accent',
+    accent: 'bg-accent/15 text-accent',
+    success: 'bg-success/15 text-success',
+    warning: 'bg-warning/15 text-warning',
+    error: 'bg-danger/15 text-danger',
+    info: 'bg-info/15 text-info',
+    neutral: 'bg-surface-2 text-muted',
   };
 
   const sizes = {

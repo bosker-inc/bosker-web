@@ -38,14 +38,14 @@ export default function AboutPage() {
   return (
     <main>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-50 to-neutral-50 py-16 md:py-20">
+      <section className="relative overflow-hidden bg-surface-2 bg-mesh py-16 md:py-20">
         <div className="container">
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <Reveal className="max-w-xl">
-              <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 mb-4">
+              <h1 className="h1 text-fg mb-4">
                 About Bosker
               </h1>
-              <p className="text-xl text-neutral-600">
+              <p className="text-xl text-muted">
                 Empowering beauty professionals and delighting customers through
                 seamless connections
               </p>
@@ -71,10 +71,10 @@ export default function AboutPage() {
       <section className="py-16">
         <div className="container max-w-3xl space-y-12">
           <Reveal>
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="h1 text-fg mb-4">
               Our Mission
             </h2>
-            <p className="text-lg text-neutral-600 leading-relaxed">
+            <p className="text-lg text-muted leading-relaxed">
               To make beauty services accessible, affordable, and trustworthy by
               creating a platform where talented professionals and satisfied
               customers can connect easily and securely.
@@ -83,7 +83,7 @@ export default function AboutPage() {
 
           <div>
             <Reveal>
-              <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+              <h2 className="h1 text-fg mb-4">
                 Our Values
               </h2>
             </Reveal>
@@ -92,10 +92,10 @@ export default function AboutPage() {
                 <StaggerItem key={i}>
                   <Card hoverable className="h-full">
                     <CardBody>
-                      <h3 className="text-lg font-semibold text-neutral-900 mb-2">
+                      <h3 className="text-lg font-semibold text-fg mb-2">
                         {value.title}
                       </h3>
-                      <p className="text-neutral-600">{value.desc}</p>
+                      <p className="text-muted">{value.desc}</p>
                     </CardBody>
                   </Card>
                 </StaggerItem>
@@ -104,10 +104,10 @@ export default function AboutPage() {
           </div>
 
           <Reveal>
-            <h2 className="text-3xl font-bold text-neutral-900 mb-4">
+            <h2 className="h1 text-fg mb-4">
               Our Story
             </h2>
-            <p className="text-lg text-neutral-600 leading-relaxed">
+            <p className="text-lg text-muted leading-relaxed">
               Founded in 2024, Bosker was created to solve a real problem:
               finding a trusted beauty professional is difficult, time-consuming,
               and unreliable. We believed there had to be a better way. Today, we
@@ -119,15 +119,15 @@ export default function AboutPage() {
       </section>
 
       {/* Stats */}
-      <section className="bg-neutral-50 py-16">
+      <section className="bg-surface-2 py-16">
         <div className="container">
           <StaggerGroup className="grid md:grid-cols-4 gap-8 text-center">
             {STATS.map((stat, i) => (
               <StaggerItem key={i}>
-                <div className="text-4xl font-bold text-primary-600 mb-2">
+                <div className="h1 text-accent mb-2">
                   <CountUp value={stat.number} />
                 </div>
-                <div className="text-neutral-600">{stat.label}</div>
+                <div className="text-muted">{stat.label}</div>
               </StaggerItem>
             ))}
           </StaggerGroup>

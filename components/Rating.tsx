@@ -53,7 +53,7 @@ export function Rating({
         ))}
       </div>
       {showNumber && (
-        <span className="text-neutral-600 text-sm font-semibold">
+        <span className="text-muted text-sm font-semibold">
           {rating.toFixed(1)}
         </span>
       )}

@@ -27,19 +27,19 @@ export default function ServicesPage() {
   return (
     <main>
       {/* Header */}
-      <section className="bg-gradient-to-br from-primary-50 to-neutral-50 py-12">
+      <section className="bg-surface-2 bg-mesh py-12">
         <div className="container">
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+          <h1 className="h1 text-fg mb-4">
             Beauty Services
           </h1>
-          <p className="text-lg text-neutral-600">
+          <p className="text-lg text-muted">
             Explore all available beauty services and find the perfect professional
           </p>
         </div>
       </section>
 
       {/* Search & Filter */}
-      <section className="py-8 border-b border-neutral-200 sticky top-20 bg-white z-40">
+      <section className="py-8 border-b border-border sticky top-20 bg-surface z-40">
         <div className="container">
           <div className="flex gap-4">
             <Input
@@ -69,10 +69,10 @@ export default function ServicesPage() {
                   />
                   <CardBody className="space-y-4 text-center">
                     <div>
-                      <h3 className="text-lg font-semibold text-neutral-900">
+                      <h3 className="text-lg font-semibold text-fg">
                         {service.name}
                       </h3>
-                      <p className="text-sm text-neutral-600 mt-1">
+                      <p className="text-sm text-muted mt-1">
                         {service.count} professionals
                       </p>
                     </div>

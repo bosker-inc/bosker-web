@@ -9,14 +9,14 @@ export function AppPromotion() {
       {/* Decorative blob */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-white/10 blur-3xl animate-float"
+        className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-surface/10 blur-3xl animate-float"
       />
 
       <div className="container relative">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Side - Content */}
           <Reveal className="space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold">
+            <h2 className="h2">
               Book Beauty Services On The Go
             </h2>
             <p className="text-lg text-primary-100">
@@ -43,14 +43,14 @@ export function AppPromotion() {
               <Button
                 variant="secondary"
                 size="lg"
-                className="bg-white text-primary-600 hover:bg-neutral-100"
+                className="bg-surface text-accent hover:bg-surface-2"
               >
                 App Store
               </Button>
               <Button
                 variant="secondary"
                 size="lg"
-                className="bg-white text-primary-600 hover:bg-neutral-100"
+                className="bg-surface text-accent hover:bg-surface-2"
               >
                 Google Play
               </Button>

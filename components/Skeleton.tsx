@@ -7,17 +7,14 @@ interface SkeletonProps {
 export function Skeleton({ className }: SkeletonProps) {
   return (
     <div
-      className={cn(
-        'animate-pulse bg-neutral-200 rounded-lg',
-        className
-      )}
+      className={cn('animate-pulse bg-surface-2 rounded-lg', className)}
     />
   );
 }
 
 export function SkeletonCard() {
   return (
-    <div className="rounded-lg border border-neutral-200 overflow-hidden p-6 space-y-4">
+    <div className="rounded-xl border border-border bg-surface overflow-hidden p-6 space-y-4">
       <Skeleton className="h-4 w-3/4" />
       <Skeleton className="h-4 w-1/2" />
       <Skeleton className="h-20" />

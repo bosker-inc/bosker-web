@@ -10,16 +10,16 @@ export default function PublicError({
   reset: () => void;
 }) {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-red-50 to-neutral-50 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-surface-2 flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <CardBody className="text-center space-y-6 py-12">
           <div className="text-6xl">⚠️</div>
 
           <div>
-            <h1 className="text-3xl font-bold text-neutral-900 mb-2">
+            <h1 className="h1 text-fg mb-2">
               Something went wrong
             </h1>
-            <p className="text-neutral-600">
+            <p className="text-muted">
               We&apos;re having trouble loading this page.
             </p>
           </div>

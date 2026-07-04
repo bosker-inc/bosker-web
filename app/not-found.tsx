@@ -10,16 +10,16 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-primary-50 to-neutral-50 flex items-center justify-center p-4">
+    <main className="min-h-screen bg-surface-2 bg-mesh flex items-center justify-center p-4">
       <Card className="max-w-md w-full">
         <CardBody className="text-center space-y-6 py-12">
-          <div className="text-8xl font-bold text-primary-600">404</div>
+          <div className="text-8xl font-bold text-accent">404</div>
 
           <div>
-            <h1 className="text-3xl font-bold text-neutral-900 mb-2">
+            <h1 className="h1 text-fg mb-2">
               Page Not Found
             </h1>
-            <p className="text-neutral-600">
+            <p className="text-muted">
               The page you are looking for doesn&apos;t exist or has been moved.
             </p>
           </div>

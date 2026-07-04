@@ -10,16 +10,16 @@ export const metadata: Metadata = {
 
 export default function ProfilePage() {
   return (
-    <main className="p-8 bg-neutral-50 min-h-screen">
+    <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-2xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-neutral-900">My Profile</h1>
-          <p className="text-neutral-600 mt-2">Manage your account information</p>
+          <h1 className="h1 text-fg">My Profile</h1>
+          <p className="text-muted mt-2">Manage your account information</p>
         </div>
 
         <Card>
           <CardHeader>
-            <h2 className="text-xl font-semibold text-neutral-900">
+            <h2 className="text-xl font-semibold text-fg">
               Personal Information
             </h2>
           </CardHeader>
@@ -75,26 +75,26 @@ export default function ProfilePage() {
 
         <Card className="mt-6">
           <CardHeader>
-            <h2 className="text-xl font-semibold text-neutral-900">
+            <h2 className="text-xl font-semibold text-fg">
               Preferences
             </h2>
           </CardHeader>
           <CardBody className="space-y-4">
             <label className="flex items-center gap-3">
               <input type="checkbox" defaultChecked className="w-4 h-4" />
-              <span className="text-neutral-700">
+              <span className="text-fg">
                 Receive appointment reminders
               </span>
             </label>
             <label className="flex items-center gap-3">
               <input type="checkbox" defaultChecked className="w-4 h-4" />
-              <span className="text-neutral-700">
+              <span className="text-fg">
                 Receive promotional offers
               </span>
             </label>
             <label className="flex items-center gap-3">
               <input type="checkbox" className="w-4 h-4" />
-              <span className="text-neutral-700">
+              <span className="text-fg">
                 Allow professionals to contact me
               </span>
             </label>
@@ -103,7 +103,7 @@ export default function ProfilePage() {
 
         <Card className="mt-6">
           <CardHeader>
-            <h2 className="text-xl font-semibold text-neutral-900">
+            <h2 className="text-xl font-semibold text-fg">
               Change Password
             </h2>
           </CardHeader>

@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 
 export default function AvailabilityPage() {
   return (
-    <main className="p-8 bg-neutral-50 min-h-screen">
+    <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-2xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-neutral-900">Availability</h1>
-          <p className="text-neutral-600 mt-2">
+          <h1 className="h1 text-fg">Availability</h1>
+          <p className="text-muted mt-2">
             Set your weekly working hours. Customers can only book within these
             times.
           </p>
@@ -22,7 +22,7 @@ export default function AvailabilityPage() {
 
         <Card>
           <CardHeader>
-            <h2 className="text-xl font-semibold text-neutral-900">
+            <h2 className="text-xl font-semibold text-fg">
               Weekly Schedule
             </h2>
           </CardHeader>

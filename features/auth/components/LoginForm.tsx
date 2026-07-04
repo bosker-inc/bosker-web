@@ -36,7 +36,7 @@ export function LoginForm() {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+        <div className="p-4 bg-danger/10 border border-danger/30 rounded-lg text-danger">
           {error}
         </div>
       )}
@@ -62,11 +62,11 @@ export function LoginForm() {
       <div className="flex items-center justify-between text-sm">
         <label className="flex items-center gap-2">
           <input type="checkbox" className="w-4 h-4" />
-          <span className="text-neutral-600">Remember me</span>
+          <span className="text-muted">Remember me</span>
         </label>
         <Link
           href="/forgot-password"
-          className="text-primary-600 hover:text-primary-700"
+          className="text-accent hover:text-accent"
         >
           Forgot password?
         </Link>
@@ -81,11 +81,11 @@ export function LoginForm() {
         Sign In
       </Button>
 
-      <p className="text-center text-neutral-600">
+      <p className="text-center text-muted">
         Don't have an account?{' '}
         <Link
           href="/signup"
-          className="text-primary-600 hover:text-primary-700 font-semibold"
+          className="text-accent hover:text-accent font-semibold"
         >
           Sign up
         </Link>

@@ -42,14 +42,14 @@ export function SignupForm() {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+        <div className="p-4 bg-danger/10 border border-danger/30 rounded-lg text-danger">
           {error}
         </div>
       )}
 
       {/* Role Selection */}
       <div>
-        <p className="mb-2 text-sm font-semibold text-neutral-700">
+        <p className="mb-2 text-sm font-semibold text-fg">
           I want to join as
         </p>
         <div className="grid grid-cols-2 gap-3">
@@ -62,8 +62,8 @@ export function SignupForm() {
               className={cn(
                 'flex flex-col items-center gap-1 p-4 border-2 rounded-lg cursor-pointer transition-colors text-center',
                 selectedRole === option.value
-                  ? 'border-primary-600 bg-primary-50'
-                  : 'border-neutral-200 hover:border-neutral-300'
+                  ? 'border-accent bg-accent/10'
+                  : 'border-border hover:border-border'
               )}
             >
               <input
@@ -73,10 +73,10 @@ export function SignupForm() {
                 className="sr-only"
               />
               <span className="text-2xl">{option.icon}</span>
-              <span className="font-semibold text-neutral-900">
+              <span className="font-semibold text-fg">
                 {option.label}
               </span>
-              <span className="text-xs text-neutral-600">{option.desc}</span>
+              <span className="text-xs text-muted">{option.desc}</span>
             </label>
           ))}
         </div>
@@ -119,13 +119,13 @@ export function SignupForm() {
 
       <label className="flex items-start gap-3">
         <input type="checkbox" className="w-4 h-4 mt-1" />
-        <span className="text-sm text-neutral-600">
+        <span className="text-sm text-muted">
           I agree to the{' '}
-          <Link href="/terms" className="text-primary-600 hover:underline">
+          <Link href="/terms" className="text-accent hover:underline">
             Terms of Service
           </Link>{' '}
           and{' '}
-          <Link href="/privacy" className="text-primary-600 hover:underline">
+          <Link href="/privacy" className="text-accent hover:underline">
             Privacy Policy
           </Link>
         </span>
@@ -140,11 +140,11 @@ export function SignupForm() {
         Create Account
       </Button>
 
-      <p className="text-center text-neutral-600">
+      <p className="text-center text-muted">
         Already have an account?{' '}
         <Link
           href="/login"
-          className="text-primary-600 hover:text-primary-700 font-semibold"
+          className="text-accent hover:text-accent font-semibold"
         >
           Sign in
         </Link>

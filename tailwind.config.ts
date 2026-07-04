@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './app/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -10,6 +11,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Semantic, theme-aware tokens (see styles/globals.css)
+        bg: 'rgb(var(--bg) / <alpha-value>)',
+        surface: 'rgb(var(--surface) / <alpha-value>)',
+        'surface-2': 'rgb(var(--surface-2) / <alpha-value>)',
+        fg: 'rgb(var(--fg) / <alpha-value>)',
+        muted: 'rgb(var(--muted) / <alpha-value>)',
+        border: 'rgb(var(--border) / <alpha-value>)',
+        accent: {
+          DEFAULT: 'rgb(var(--accent) / <alpha-value>)',
+          strong: 'rgb(var(--accent-strong) / <alpha-value>)',
+          fg: 'rgb(var(--accent-fg) / <alpha-value>)',
+        },
+        ring: 'rgb(var(--ring) / <alpha-value>)',
+        success: 'rgb(var(--success) / <alpha-value>)',
+        warning: 'rgb(var(--warning) / <alpha-value>)',
+        danger: 'rgb(var(--danger) / <alpha-value>)',
+
         primary: {
           50: '#faf5ff',
           100: '#f3e8ff',
@@ -35,14 +53,13 @@ const config: Config = {
           900: '#171717',
           950: '#0a0a0a',
         },
-        success: '#10b981',
-        warning: '#f59e0b',
         error: '#ef4444',
         info: '#3b82f6',
       },
 
       fontFamily: {
         sans: ['Poppins', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
       },
 
       fontSize: {
@@ -77,6 +94,10 @@ const config: Config = {
         '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)',
         none: 'none',
+        // Semantic depth scale
+        soft: '0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.05)',
+        raised: '0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)',
+        floating: '0 12px 32px rgba(0,0,0,0.14), 0 4px 8px rgba(0,0,0,0.06)',
       },
 
       borderRadius: {

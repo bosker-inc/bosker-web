@@ -33,14 +33,14 @@ const BOOKING_REQUESTS: BookingRequest[] = [
 
 export default function TechnicianDashboardPage() {
   return (
-    <main className="p-8 bg-neutral-50 min-h-screen">
+    <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-6xl">
         {/* Welcome Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-neutral-900">
+          <h1 className="h1 text-fg">
             Welcome back, Sarah! 💜
           </h1>
-          <p className="text-neutral-600 mt-2">
+          <p className="text-muted mt-2">
             Here&apos;s how your business is doing
           </p>
         </div>
@@ -56,10 +56,10 @@ export default function TechnicianDashboardPage() {
             <Card key={i}>
               <CardBody className="text-center space-y-2">
                 <div className="text-4xl">{stat.icon}</div>
-                <div className="text-3xl font-bold text-primary-600">
+                <div className="h1 text-accent">
                   {stat.value}
                 </div>
-                <div className="text-sm text-neutral-600">{stat.label}</div>
+                <div className="text-sm text-muted">{stat.label}</div>
               </CardBody>
             </Card>
           ))}
@@ -70,7 +70,7 @@ export default function TechnicianDashboardPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Booking Requests */}
             <div>
-              <h2 className="text-xl font-semibold text-neutral-900 mb-4">
+              <h2 className="text-xl font-semibold text-fg mb-4">
                 New Booking Requests
               </h2>
               <div className="space-y-4">
@@ -83,7 +83,7 @@ export default function TechnicianDashboardPage() {
             {/* Today's Schedule */}
             <Card>
               <CardHeader>
-                <h2 className="text-xl font-semibold text-neutral-900">
+                <h2 className="text-xl font-semibold text-fg">
                   Today&apos;s Schedule
                 </h2>
               </CardHeader>
@@ -110,17 +110,17 @@ export default function TechnicianDashboardPage() {
                 ].map((appt, i) => (
                   <div
                     key={i}
-                    className="flex items-center justify-between p-4 bg-neutral-50 rounded-lg"
+                    className="flex items-center justify-between p-4 bg-surface-2 rounded-lg"
                   >
                     <div className="flex items-center gap-4">
-                      <span className="font-semibold text-primary-600 w-20">
+                      <span className="font-semibold text-accent w-20">
                         {appt.time}
                       </span>
                       <div>
-                        <p className="font-semibold text-neutral-900">
+                        <p className="font-semibold text-fg">
                           {appt.service}
                         </p>
-                        <p className="text-sm text-neutral-600">
+                        <p className="text-sm text-muted">
                           {appt.customer}
                         </p>
                       </div>
@@ -142,26 +142,26 @@ export default function TechnicianDashboardPage() {
           <div className="space-y-6">
             <Card>
               <CardHeader>
-                <h3 className="font-semibold text-neutral-900">
+                <h3 className="font-semibold text-fg">
                   Recent Reviews
                 </h3>
               </CardHeader>
               <CardBody className="space-y-4 text-sm">
-                <div className="pb-4 border-b border-neutral-200">
-                  <p className="font-semibold text-neutral-900 mb-1">
+                <div className="pb-4 border-b border-border">
+                  <p className="font-semibold text-fg mb-1">
                     Jessica M.
                   </p>
                   <div className="mb-2">⭐⭐⭐⭐⭐</div>
-                  <p className="text-neutral-600">
+                  <p className="text-muted">
                     Sarah is amazing! Best color I&apos;ve ever had.
                   </p>
                 </div>
                 <div>
-                  <p className="font-semibold text-neutral-900 mb-1">
+                  <p className="font-semibold text-fg mb-1">
                     Amanda L.
                   </p>
                   <div className="mb-2">⭐⭐⭐⭐⭐</div>
-                  <p className="text-neutral-600">
+                  <p className="text-muted">
                     Always professional and on time.
                   </p>
                 </div>
@@ -170,20 +170,20 @@ export default function TechnicianDashboardPage() {
 
             <Card>
               <CardHeader>
-                <h3 className="font-semibold text-neutral-900">
+                <h3 className="font-semibold text-fg">
                   Quick Actions
                 </h3>
               </CardHeader>
               <CardBody className="space-y-3">
                 <a
                   href="/availability"
-                  className="block p-3 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-700 font-semibold text-sm"
+                  className="block p-3 bg-accent/10 hover:bg-accent/20 rounded-lg transition-colors text-accent font-semibold text-sm"
                 >
                   🗓️ Update Availability
                 </a>
                 <a
                   href="/profile"
-                  className="block p-3 bg-primary-50 hover:bg-primary-100 rounded-lg transition-colors text-primary-700 font-semibold text-sm"
+                  className="block p-3 bg-accent/10 hover:bg-accent/20 rounded-lg transition-colors text-accent font-semibold text-sm"
                 >
                   👤 Edit Public Profile
                 </a>

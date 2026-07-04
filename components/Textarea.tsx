@@ -19,24 +19,24 @@ export function Textarea({
   return (
     <div className={cn('flex flex-col', fullWidth && 'w-full')}>
       {label && (
-        <label className="mb-2 text-sm font-semibold text-neutral-700">
+        <label className="mb-2 text-sm font-semibold text-fg">
           {label}
         </label>
       )}
       <textarea
         {...props}
         className={cn(
-          'w-full px-4 py-2.5 border border-neutral-300 rounded-lg resize-none',
-          'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent',
-          'placeholder:text-neutral-400',
-          'disabled:bg-neutral-100 disabled:cursor-not-allowed',
-          error && 'border-error focus:ring-error',
+          'w-full px-4 py-2.5 rounded-lg resize-none bg-surface text-fg border border-border',
+          'transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-transparent',
+          'placeholder:text-muted/70',
+          'disabled:bg-surface-2 disabled:cursor-not-allowed',
+          error && 'border-danger focus-visible:ring-danger',
           className
         )}
       />
-      {error && <p className="mt-1 text-sm text-error">{error}</p>}
+      {error && <p className="mt-1 text-sm text-danger">{error}</p>}
       {helperText && !error && (
-        <p className="mt-1 text-sm text-neutral-500">{helperText}</p>
+        <p className="mt-1 text-sm text-muted">{helperText}</p>
       )}
     </div>
   );

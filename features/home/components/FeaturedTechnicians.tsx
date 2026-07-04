@@ -50,10 +50,10 @@ export function FeaturedTechnicians() {
     <section className="py-20 md:py-32">
       <div className="container">
         <Reveal className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-900 mb-4">
+          <h2 className="h2 text-fg mb-4">
             Featured Professionals
           </h2>
-          <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+          <p className="text-lg text-muted max-w-2xl mx-auto">
             Meet some of our top-rated beauty professionals ready to serve you
           </p>
         </Reveal>
@@ -66,7 +66,7 @@ export function FeaturedTechnicians() {
                 className="h-full transition-transform duration-300 hover:-translate-y-1"
               >
                 <CardBody className="space-y-4 text-center">
-                  <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-4 ring-primary-100">
+                  <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-4 ring-accent/20">
                     <OptimizedImage
                       src={getTechnicianImage(index)}
                       alt={tech.name}
@@ -78,10 +78,10 @@ export function FeaturedTechnicians() {
                   </div>
 
                   <div>
-                    <h3 className="text-lg font-semibold text-neutral-900">
+                    <h3 className="text-lg font-semibold text-fg">
                       {tech.name}
                     </h3>
-                    <p className="text-sm text-primary-600 font-medium">
+                    <p className="text-sm text-accent font-medium">
                       {tech.title}
                     </p>
                   </div>
@@ -89,19 +89,19 @@ export function FeaturedTechnicians() {
                   <div className="space-y-1">
                     <div className="flex items-center justify-center gap-1">
                       <span className="text-lg">⭐</span>
-                      <span className="font-semibold text-neutral-900">
+                      <span className="font-semibold text-fg">
                         {tech.rating}
                       </span>
-                      <span className="text-neutral-600 text-sm">
+                      <span className="text-muted text-sm">
                         ({tech.reviews})
                       </span>
                     </div>
-                    <p className="text-sm text-neutral-600">
+                    <p className="text-sm text-muted">
                       {tech.yearsExp} years experience
                     </p>
                   </div>
 
-                  <div className="bg-neutral-50 rounded-lg p-3 text-sm text-neutral-700">
+                  <div className="bg-surface-2 rounded-lg p-3 text-sm text-fg">
                     {tech.services}
                   </div>
 

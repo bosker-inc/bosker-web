@@ -21,30 +21,30 @@ export function Input({
   return (
     <div className={cn('flex flex-col', fullWidth && 'w-full')}>
       {label && (
-        <label className="mb-2 text-sm font-semibold text-neutral-700">
+        <label className="mb-2 text-sm font-semibold text-fg">
           {label}
         </label>
       )}
       <div className="relative">
         {icon && (
-          <div className="absolute left-3 top-3 text-neutral-500">{icon}</div>
+          <div className="absolute left-3 top-3 text-muted">{icon}</div>
         )}
         <input
           {...props}
           className={cn(
-            'w-full px-4 py-2.5 border border-neutral-300 rounded-lg',
-            'focus:outline-none focus:ring-2 focus:ring-primary-600 focus:border-transparent',
-            'placeholder:text-neutral-400',
-            'disabled:bg-neutral-100 disabled:cursor-not-allowed',
-            error && 'border-error focus:ring-error',
+            'w-full px-4 py-2.5 rounded-lg bg-surface text-fg border border-border',
+            'transition-shadow focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus:border-transparent',
+            'placeholder:text-muted/70',
+            'disabled:bg-surface-2 disabled:cursor-not-allowed',
+            error && 'border-danger focus-visible:ring-danger',
             icon && 'pl-10',
             className
           )}
         />
       </div>
-      {error && <p className="mt-1 text-sm text-error">{error}</p>}
+      {error && <p className="mt-1 text-sm text-danger">{error}</p>}
       {helperText && !error && (
-        <p className="mt-1 text-sm text-neutral-500">{helperText}</p>
+        <p className="mt-1 text-sm text-muted">{helperText}</p>
       )}
     </div>
   );

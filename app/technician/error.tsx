@@ -10,17 +10,17 @@ export default function TechnicianError({
   reset: () => void;
 }) {
   return (
-    <main className="flex-1 p-8 bg-neutral-50">
+    <main className="flex-1 p-8 bg-surface-2">
       <div className="max-w-2xl mx-auto">
         <Card>
           <CardBody className="text-center space-y-6 py-12">
             <div className="text-6xl">⚠️</div>
 
             <div>
-              <h1 className="text-3xl font-bold text-neutral-900 mb-2">
+              <h1 className="h1 text-fg mb-2">
                 Error loading page
               </h1>
-              <p className="text-neutral-600">
+              <p className="text-muted">
                 Something went wrong. Please try again.
               </p>
             </div>

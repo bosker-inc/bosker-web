@@ -51,23 +51,23 @@ export default function TechniciansPage() {
   return (
     <main>
       {/* Header */}
-      <section className="bg-gradient-to-br from-primary-50 to-neutral-50 py-12">
+      <section className="bg-surface-2 bg-mesh py-12">
         <div className="container">
-          <h1 className="text-4xl font-bold text-neutral-900 mb-4">
+          <h1 className="h1 text-fg mb-4">
             Beauty Professionals
           </h1>
-          <p className="text-lg text-neutral-600">
+          <p className="text-lg text-muted">
             Find and book the perfect professional for your beauty needs
           </p>
         </div>
       </section>
 
       {/* Search & Filter */}
-      <section className="py-8 border-b border-neutral-200 sticky top-20 bg-white z-40">
+      <section className="py-8 border-b border-border sticky top-20 bg-surface z-40">
         <div className="container">
           <div className="grid md:grid-cols-3 gap-4">
             <Input placeholder="Search by name..." />
-            <select className="border border-neutral-300 rounded-lg px-4 py-2.5">
+            <select className="border border-border rounded-lg px-4 py-2.5">
               <option>All Services</option>
               <option>Hair Styling</option>
               <option>Nail Care</option>
@@ -89,7 +89,7 @@ export default function TechniciansPage() {
                   className="h-full transition-transform duration-300 hover:-translate-y-1"
                 >
                   <CardBody className="space-y-4 text-center">
-                    <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-4 ring-primary-100">
+                    <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-4 ring-accent/20">
                       <OptimizedImage
                         src={getTechnicianImage(index)}
                         alt={tech.name}
@@ -100,19 +100,19 @@ export default function TechniciansPage() {
                       />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-neutral-900">
+                      <h3 className="text-lg font-semibold text-fg">
                         {tech.name}
                       </h3>
-                      <p className="text-sm text-primary-600">{tech.title}</p>
+                      <p className="text-sm text-accent">{tech.title}</p>
                     </div>
                     <div className="flex items-center justify-center gap-1">
                       <span className="text-lg">⭐</span>
                       <span className="font-semibold">{tech.rating}</span>
-                      <span className="text-neutral-600 text-sm">
+                      <span className="text-muted text-sm">
                         ({tech.reviews})
                       </span>
                     </div>
-                    <p className="text-sm text-neutral-600">{tech.services}</p>
+                    <p className="text-sm text-muted">{tech.services}</p>
                     <Button variant="primary" size="sm" fullWidth>
                       View Profile
                     </Button>
