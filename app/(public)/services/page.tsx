@@ -2,6 +2,10 @@ import { Metadata } from 'next';
 import { Card, CardBody } from '@/components/Card';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
+import { StaggerGroup } from '@/components/motion/StaggerGroup';
+import { StaggerItem } from '@/components/motion/StaggerItem';
+import { MotionImage } from '@/components/motion/MotionImage';
+import { getServiceImage } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Services',
@@ -9,14 +13,14 @@ export const metadata: Metadata = {
 };
 
 const SERVICES = [
-  { id: '1', name: 'Hair Styling', icon: '💇', count: 342 },
-  { id: '2', name: 'Nail Care', icon: '💅', count: 289 },
-  { id: '3', name: 'Makeup', icon: '💄', count: 156 },
-  { id: '4', name: 'Skincare', icon: '✨', count: 201 },
-  { id: '5', name: 'Waxing', icon: '🪮', count: 178 },
-  { id: '6', name: 'Massage', icon: '🧘', count: 223 },
-  { id: '7', name: 'Eyebrow Design', icon: '👁️', count: 134 },
-  { id: '8', name: 'Lash Extensions', icon: '✨', count: 167 },
+  { id: '1', name: 'Hair Styling', count: 342 },
+  { id: '2', name: 'Nail Care', count: 289 },
+  { id: '3', name: 'Makeup', count: 156 },
+  { id: '4', name: 'Skincare', count: 201 },
+  { id: '5', name: 'Waxing', count: 178 },
+  { id: '6', name: 'Massage', count: 223 },
+  { id: '7', name: 'Eyebrow Design', count: 134 },
+  { id: '8', name: 'Lash Extensions', count: 167 },
 ];
 
 export default function ServicesPage() {
@@ -50,26 +54,36 @@ export default function ServicesPage() {
       {/* Services Grid */}
       <section className="py-12">
         <div className="container">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <StaggerGroup className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {SERVICES.map((service) => (
-              <Card key={service.id} hoverable>
-                <CardBody className="space-y-4 text-center">
-                  <div className="text-5xl">{service.icon}</div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-neutral-900">
-                      {service.name}
-                    </h3>
-                    <p className="text-sm text-neutral-600 mt-1">
-                      {service.count} professionals
-                    </p>
-                  </div>
-                  <Button size="sm" fullWidth>
-                    View Professionals
-                  </Button>
-                </CardBody>
-              </Card>
+              <StaggerItem key={service.id}>
+                <Card hoverable className="h-full">
+                  <MotionImage
+                    src={getServiceImage(service.name)}
+                    alt={service.name}
+                    width={600}
+                    height={400}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="h-40 w-full"
+                    imageClassName="h-40 w-full object-cover"
+                  />
+                  <CardBody className="space-y-4 text-center">
+                    <div>
+                      <h3 className="text-lg font-semibold text-neutral-900">
+                        {service.name}
+                      </h3>
+                      <p className="text-sm text-neutral-600 mt-1">
+                        {service.count} professionals
+                      </p>
+                    </div>
+                    <Button size="sm" fullWidth>
+                      View Professionals
+                    </Button>
+                  </CardBody>
+                </Card>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
     </main>

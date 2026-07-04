@@ -1,17 +1,27 @@
 import { Button } from '@/components/Button';
+import { OptimizedImage } from '@/components/OptimizedImage';
+import { Reveal } from '@/components/motion/Reveal';
+import { APP_PROMO_IMAGE } from '@/lib/images';
 
 export function AppPromotion() {
   return (
-    <section className="bg-gradient-to-r from-primary-600 to-primary-700 py-16 md:py-20 text-white">
-      <div className="container">
+    <section className="relative overflow-hidden bg-gradient-to-r from-primary-600 to-primary-700 py-16 md:py-20 text-white">
+      {/* Decorative blob */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-white/10 blur-3xl animate-float"
+      />
+
+      <div className="container relative">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Side - Content */}
-          <div className="space-y-6">
+          <Reveal className="space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold">
               Book Beauty Services On The Go
             </h2>
             <p className="text-lg text-primary-100">
-              Download our mobile app to book appointments faster, track your appointments in real-time, and get exclusive mobile-only offers.
+              Download our mobile app to book appointments faster, track your
+              appointments in real-time, and get exclusive mobile-only offers.
             </p>
 
             <div className="space-y-3">
@@ -45,12 +55,20 @@ export function AppPromotion() {
                 Google Play
               </Button>
             </div>
-          </div>
+          </Reveal>
 
           {/* Right Side - Visual */}
-          <div className="hidden md:flex justify-center">
-            <div className="text-9xl">📱</div>
-          </div>
+          <Reveal delay={0.15} className="hidden md:flex justify-center">
+            <div className="relative aspect-[3/4] w-64 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/20">
+              <OptimizedImage
+                src={APP_PROMO_IMAGE}
+                alt="Customer booking a beauty appointment on the Bosker mobile app"
+                fill
+                sizes="256px"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>

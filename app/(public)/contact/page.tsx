@@ -2,6 +2,9 @@ import { Metadata } from 'next';
 import { Input } from '@/components/Input';
 import { Textarea } from '@/components/Textarea';
 import { Button } from '@/components/Button';
+import { Reveal } from '@/components/motion/Reveal';
+import { StaggerGroup } from '@/components/motion/StaggerGroup';
+import { StaggerItem } from '@/components/motion/StaggerItem';
 
 export const metadata: Metadata = {
   title: 'Contact Us',
@@ -26,6 +29,7 @@ export default function ContactPage() {
       {/* Contact Form */}
       <section className="py-16">
         <div className="container max-w-2xl">
+          <Reveal>
           <form className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <Input
@@ -58,9 +62,10 @@ export default function ContactPage() {
               Send Message
             </Button>
           </form>
+          </Reveal>
 
           {/* Contact Info */}
-          <div className="mt-16 grid md:grid-cols-3 gap-8">
+          <StaggerGroup className="mt-16 grid md:grid-cols-3 gap-8">
             {[
               {
                 icon: '📧',
@@ -78,15 +83,15 @@ export default function ContactPage() {
                 value: 'San Francisco, CA',
               },
             ].map((item, i) => (
-              <div key={i} className="text-center">
+              <StaggerItem key={i} className="text-center">
                 <div className="text-4xl mb-3">{item.icon}</div>
                 <h3 className="font-semibold text-neutral-900 mb-1">
                   {item.title}
                 </h3>
                 <p className="text-neutral-600">{item.value}</p>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
     </main>

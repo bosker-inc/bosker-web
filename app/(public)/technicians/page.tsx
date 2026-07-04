@@ -2,6 +2,10 @@ import { Metadata } from 'next';
 import { Card, CardBody } from '@/components/Card';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
+import { OptimizedImage } from '@/components/OptimizedImage';
+import { StaggerGroup } from '@/components/motion/StaggerGroup';
+import { StaggerItem } from '@/components/motion/StaggerItem';
+import { getTechnicianImage } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Technicians',
@@ -15,7 +19,6 @@ const TECHNICIANS = [
     title: 'Hair Stylist',
     rating: 4.9,
     reviews: 128,
-    image: '👩‍🦰',
     services: 'Cuts, Color, Styling',
   },
   {
@@ -24,7 +27,6 @@ const TECHNICIANS = [
     title: 'Nail Technician',
     rating: 4.8,
     reviews: 95,
-    image: '💅',
     services: 'Manicure, Pedicure',
   },
   {
@@ -33,7 +35,6 @@ const TECHNICIANS = [
     title: 'Makeup Artist',
     rating: 5.0,
     reviews: 87,
-    image: '💄',
     services: 'Makeup, Special FX',
   },
   {
@@ -42,7 +43,6 @@ const TECHNICIANS = [
     title: 'Esthetician',
     rating: 4.9,
     reviews: 112,
-    image: '✨',
     services: 'Facials, Skincare',
   },
 ];
@@ -81,32 +81,46 @@ export default function TechniciansPage() {
       {/* Technicians Grid */}
       <section className="py-12">
         <div className="container">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {TECHNICIANS.map((tech) => (
-              <Card key={tech.id} hoverable>
-                <CardBody className="space-y-4 text-center">
-                  <div className="text-6xl">{tech.image}</div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-neutral-900">
-                      {tech.name}
-                    </h3>
-                    <p className="text-sm text-primary-600">{tech.title}</p>
-                  </div>
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="text-lg">⭐</span>
-                    <span className="font-semibold">{tech.rating}</span>
-                    <span className="text-neutral-600 text-sm">
-                      ({tech.reviews})
-                    </span>
-                  </div>
-                  <p className="text-sm text-neutral-600">{tech.services}</p>
-                  <Button variant="primary" size="sm" fullWidth>
-                    View Profile
-                  </Button>
-                </CardBody>
-              </Card>
+          <StaggerGroup className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {TECHNICIANS.map((tech, index) => (
+              <StaggerItem key={tech.id}>
+                <Card
+                  hoverable
+                  className="h-full transition-transform duration-300 hover:-translate-y-1"
+                >
+                  <CardBody className="space-y-4 text-center">
+                    <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-4 ring-primary-100">
+                      <OptimizedImage
+                        src={getTechnicianImage(index)}
+                        alt={tech.name}
+                        width={200}
+                        height={200}
+                        sizes="96px"
+                        className="h-24 w-24 object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-neutral-900">
+                        {tech.name}
+                      </h3>
+                      <p className="text-sm text-primary-600">{tech.title}</p>
+                    </div>
+                    <div className="flex items-center justify-center gap-1">
+                      <span className="text-lg">⭐</span>
+                      <span className="font-semibold">{tech.rating}</span>
+                      <span className="text-neutral-600 text-sm">
+                        ({tech.reviews})
+                      </span>
+                    </div>
+                    <p className="text-sm text-neutral-600">{tech.services}</p>
+                    <Button variant="primary" size="sm" fullWidth>
+                      View Profile
+                    </Button>
+                  </CardBody>
+                </Card>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
     </main>
