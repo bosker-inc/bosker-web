@@ -1,0 +1,28 @@
+<svg width="960" height="720" viewBox="0 0 960 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Beauty appointment illustration</title>
+  <desc id="desc">A warm abstract illustration of a beauty professional preparing tools for an appointment.</desc>
+  <rect width="960" height="720" rx="48" fill="#FFF7ED"/>
+  <circle cx="742" cy="132" r="92" fill="#FDBA74" opacity=".45"/>
+  <circle cx="190" cy="584" r="132" fill="#FBCFE8" opacity=".55"/>
+  <path d="M151 210c34-70 132-96 208-56 61 32 118 8 171-23 95-55 217-3 237 102 19 101-50 190-147 202-87 11-122 79-173 135-72 79-204 69-263-20-48-72-31-135-20-202 8-48-36-88-13-138Z" fill="#FFE4E6"/>
+  <path d="M297 261c0-58 47-105 105-105h142c58 0 105 47 105 105v266c0 31-25 56-56 56H353c-31 0-56-25-56-56V261Z" fill="#FFFFFF"/>
+  <path d="M297 261c0-58 47-105 105-105h142c58 0 105 47 105 105v34H297v-34Z" fill="#FB7185"/>
+  <circle cx="395" cy="225" r="23" fill="#FFF1F2"/>
+  <circle cx="552" cy="225" r="23" fill="#FFF1F2"/>
+  <path d="M390 156v-28m165 28v-28" stroke="#9F1239" stroke-width="24" stroke-linecap="round"/>
+  <rect x="362" y="355" width="224" height="28" rx="14" fill="#FED7AA"/>
+  <rect x="362" y="415" width="170" height="28" rx="14" fill="#FBCFE8"/>
+  <rect x="362" y="475" width="212" height="28" rx="14" fill="#BAE6FD"/>
+  <path d="M668 448c-18-28-8-65 22-80l63-31 25 49-63 32c-30 15-29 58 2 72l83 39-24 51-83-40c-36-17-44-61-25-92Z" fill="#FDBA74"/>
+  <path d="M733 322l38 75 57-29c21-11 29-36 19-57-10-20-36-28-56-18l-58 29Z" fill="#F97316"/>
+  <path d="M237 370c0-42 34-76 76-76h12v152h-12c-42 0-76-34-76-76Z" fill="#FDA4AF"/>
+  <path d="M196 493c21-41 68-56 108-35l41 21-38 73-41-21c-40-21-91 9-91 55v46H93v-46c0-39 22-75 57-92l46-1Z" fill="#0F172A"/>
+  <circle cx="278" cy="350" r="63" fill="#FDBA74"/>
+  <path d="M226 338c10-49 44-73 91-66 32 5 57 26 66 55-60-19-92 4-105 67-29-5-47-24-52-56Z" fill="#7C2D12"/>
+  <path d="M257 383c14 20 47 20 61 0" stroke="#9A3412" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="683" cy="586" r="26" fill="#FB7185"/>
+  <circle cx="730" cy="612" r="14" fill="#FDBA74"/>
+  <circle cx="219" cy="156" r="18" fill="#FB7185"/>
+  <path d="M126 103l26 13 13 26 13-26 26-13-26-13-13-26-13 26-26 13Z" fill="#F97316"/>
+  <path d="M761 197l18 9 9 18 9-18 18-9-18-9-9-18-9 18-18 9Z" fill="#FB7185"/>
+</svg>
