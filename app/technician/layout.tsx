@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { SidebarNav, type SidebarItem } from '@/components/SidebarNav';
+import { RequireAuth } from '@/components/RequireAuth';
 
 const ITEMS: SidebarItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: '📊' },
@@ -18,9 +19,11 @@ export default function TechnicianLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-bg">
-      <SidebarNav brand="Bosker" items={ITEMS} footerItems={FOOTER} />
-      <div className="flex-1">{children}</div>
-    </div>
+    <RequireAuth role="technician">
+      <div className="flex min-h-screen bg-bg">
+        <SidebarNav brand="Bosker" items={ITEMS} footerItems={FOOTER} />
+        <div className="flex-1">{children}</div>
+      </div>
+    </RequireAuth>
   );
 }

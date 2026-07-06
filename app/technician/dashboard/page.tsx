@@ -5,6 +5,7 @@ import {
   BookingRequestCard,
   type BookingRequest,
 } from '@/features/technician-dashboard/components/BookingRequestCard';
+import { IncomingJobPanel } from '@/features/technician-dashboard/components/IncomingJobPanel';
 
 export const metadata: Metadata = {
   title: 'Technician Dashboard',
@@ -44,6 +45,9 @@ export default function TechnicianDashboardPage() {
             Here&apos;s how your business is doing
           </p>
         </div>
+
+        {/* Live matching offers + active job (real BFF data) */}
+        <IncomingJobPanel />
 
         {/* Stats Grid */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
