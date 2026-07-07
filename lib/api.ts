@@ -1,4 +1,5 @@
 import { env } from '@/env';
+import { getToken } from '@/lib/auth-storage';
 
 export class APIError extends Error {
   constructor(
@@ -22,10 +23,12 @@ export async function request<T = any>(
   );
 
   try {
+    const token = getToken();
     const response = await fetch(env.NEXT_PUBLIC_BFF_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify({
         query,

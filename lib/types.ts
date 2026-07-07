@@ -67,6 +67,54 @@ export interface Booking {
   updatedAt: string;
 }
 
+// The BFF booking status enum (matches bosker-bff BookingStatus). Used by the
+// real booking flow; the legacy `Booking` above backs the mock UI pages.
+export type BffBookingStatus =
+  | 'INITIATED'
+  | 'CHOOSE_SERVICE'
+  | 'CHOOSE_LOCATION'
+  | 'CHOOSE_TIME'
+  | 'SUMMARY'
+  | 'PAYMENTS'
+  | 'FIND_TECHNICIAN'
+  | 'SELECT_TECHNICIAN'
+  | 'IN_PROGRESS'
+  | 'COMPLETED'
+  | 'CUSTOMER_ABORTED'
+  | 'TECHNICIAN_ABORTED'
+  | 'NO_TECHNICIAN_FOUND';
+
+// Notification as returned by the BFF (AdminNotification). Read state is per-user:
+// a notification is read iff read_by includes the viewer's id.
+export interface AppNotification {
+  id: string;
+  title: string;
+  content: string;
+  type: 'info' | 'success' | 'warning' | 'error';
+  receiver_type: string;
+  receiver_ids: string[];
+  read_by: string[];
+  sent_date: string;
+  created_at: string | null;
+}
+
+// Shape of BookingItem returned by the BFF (snake_case, mirrors the GraphQL type).
+export interface BffBooking {
+  id: string;
+  customer_id: string;
+  status: BffBookingStatus;
+  service_id: string | null;
+  technician_id: string | null;
+  scheduled_at: string | null;
+  state: string | null;
+  location_lat: number | null;
+  location_long: number | null;
+  scheduled_start: string | null;
+  scheduled_end: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 // Review
 export interface Review {
   id: string;

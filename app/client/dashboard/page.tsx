@@ -97,7 +97,7 @@ export default function DashboardPage() {
               <CardBody>
                 <div className="grid md:grid-cols-2 gap-4">
                   <a
-                    href="/services"
+                    href="/book"
                     className="p-4 bg-accent/10 hover:bg-accent/20 rounded-lg transition-colors text-accent font-semibold"
                   >
                     📅 Book New Appointment

@@ -8,6 +8,17 @@ export const loginSchema = z.object({
 
 export type LoginInput = z.infer<typeof loginSchema>;
 
+// Portal login: identifier is a phone (customer) or username (technician), so it
+// is a plain non-empty string rather than an email. Role selects which BFF auth
+// endpoint is used.
+export const portalLoginSchema = z.object({
+  identifier: z.string().min(1, 'Required'),
+  password: z.string().min(1, 'Required'),
+  role: z.enum(['customer', 'technician']),
+});
+
+export type PortalLoginInput = z.infer<typeof portalLoginSchema>;
+
 export const signupSchema = z
   .object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
