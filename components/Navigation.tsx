@@ -11,6 +11,8 @@ const LINKS = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
   { href: '/technicians', label: 'Technicians' },
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -50,7 +52,7 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden items-center gap-8 md:flex">
+          <div className="hidden items-center gap-6 md:flex">
             {LINKS.map((link) => (
               <Link
                 key={link.href}

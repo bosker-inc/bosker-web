@@ -1,0 +1,57 @@
+// Reference schema — the migration target for the blog data layer.
+//
+// This file is intentionally NOT wired up yet: no @prisma/client dependency
+// is installed and nothing imports it. It documents the shape the JSON-backed
+// repository (features/blog/repository.ts) will map to once a database is
+// introduced. The domain types in features/blog/types.ts mirror these models.
+//
+// To adopt Prisma later:
+//   1. npm i -D prisma && npm i @prisma/client
+//   2. set DATABASE_URL, run `npx prisma migrate dev`
+//   3. replace the bodies in features/blog/repository.ts with prisma queries
+//      (the async signatures already match — callers need no changes).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PostStatus {
+  draft
+  published
+}
+
+model Author {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  avatarUrl String
+  posts     Post[]
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id             String     @id @default(cuid())
+  slug           String     @unique
+  title          String
+  excerpt        String
+  category       String
+  tags           String[]
+  coverImage     String
+  publishedAt    DateTime
+  readingMinutes Int
+  status         PostStatus @default(draft)
+  // Structured content blocks ({ type, text }[]) stored as JSON.
+  content        Json
+  author         Author     @relation(fields: [authorId], references: [id])
+  authorId       String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([category])
+}
