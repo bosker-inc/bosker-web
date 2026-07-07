@@ -1,145 +1,158 @@
-import { Metadata } from 'next';
-import { Card, CardBody } from '@/components/Card';
-import { Badge } from '@/components/Badge';
-import { Button } from '@/components/Button';
-import { EmptyState } from '@/components/EmptyState';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'My Bookings',
-  description: 'View and manage your bookings',
-};
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { BffBooking } from '@/lib/types';
+import { updateBookingStatus } from '@/lib/booking-api';
+import { createReview } from '@/lib/review-api';
+import { bookingGroup, isCancellable, statusBadgeVariant, statusLabel, type BookingGroup } from '@/lib/booking-status';
+import { useCustomerBookings } from '@/hooks/useCustomerBookings';
+import { Card, CardBody } from '@/components/Card';
+import { Button } from '@/components/Button';
+import { Badge } from '@/components/Badge';
+import { Rating } from '@/components/Rating';
+import { Textarea } from '@/components/Textarea';
+import { EmptyState } from '@/components/EmptyState';
+import { SkeletonCard } from '@/components/Skeleton';
+import { StaggerGroup } from '@/components/motion/StaggerGroup';
+import { StaggerItem } from '@/components/motion/StaggerItem';
+
+const TABS = ['All', 'Upcoming', 'Completed', 'Cancelled'] as const;
+type Tab = (typeof TABS)[number];
+
+function fmtDate(iso: string | null): string {
+  if (!iso) return 'Flexible time';
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? 'Flexible time' : d.toLocaleString();
+}
+
+function ReviewForm({ bookingId, onDone }: { bookingId: string; onDone: () => void }) {
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const submit = async () => {
+    setBusy(true);
+    setErr(null);
+    try {
+      await createReview(bookingId, rating, comment || undefined);
+      onDone();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Could not submit review');
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="mt-3 w-full space-y-3 rounded-lg border border-border bg-surface-2/40 p-4">
+      <Rating rating={rating} interactive onRatingChange={setRating} />
+      <Textarea
+        placeholder="How was your appointment?"
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        fullWidth
+      />
+      {err && <p className="text-sm text-danger">{err}</p>}
+      <div className="flex gap-2">
+        <Button size="sm" onClick={submit} isLoading={busy}>Submit review</Button>
+        <Button size="sm" variant="ghost" onClick={onDone}>Cancel</Button>
+      </div>
+    </div>
+  );
+}
+
+function BookingRow({ booking, onChanged }: { booking: BffBooking; onChanged: (b: BffBooking) => void }) {
+  const [busy, setBusy] = useState(false);
+  const [reviewing, setReviewing] = useState(false);
+  const [reviewed, setReviewed] = useState(false);
+
+  const cancel = async () => {
+    setBusy(true);
+    try {
+      onChanged(await updateBookingStatus(booking.id, 'CUSTOMER_ABORTED'));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Card variant="interactive">
+      <CardBody className="flex flex-wrap items-center gap-4">
+        <div className="text-3xl">💅</div>
+        <div className="min-w-0 flex-1">
+          <p className="font-semibold text-fg">Booking {booking.id.slice(0, 8)}</p>
+          <p className="text-sm text-muted">{fmtDate(booking.scheduled_start ?? booking.scheduled_at)}</p>
+        </div>
+        <Badge variant={statusBadgeVariant(booking.status)}>{statusLabel(booking.status)}</Badge>
+        <div className="flex gap-2">
+          {isCancellable(booking.status) && (
+            <Button size="sm" variant="outline" onClick={cancel} isLoading={busy}>Cancel</Button>
+          )}
+          {booking.status === 'COMPLETED' && !reviewed && (
+            <Button size="sm" onClick={() => setReviewing((v) => !v)}>Review</Button>
+          )}
+          {reviewed && <span className="self-center text-sm text-success">Reviewed ✓</span>}
+        </div>
+        {reviewing && !reviewed && (
+          <ReviewForm bookingId={booking.id} onDone={() => { setReviewing(false); setReviewed(true); }} />
+        )}
+      </CardBody>
+    </Card>
+  );
+}
 
 export default function BookingsPage() {
-  const bookings = [
-    {
-      id: '1',
-      service: 'Hair Color & Cut',
-      professional: 'Sarah Johnson',
-      date: 'Tomorrow, 2:00 PM',
-      price: '$150',
-      status: 'confirmed',
-    },
-    {
-      id: '2',
-      service: 'Manicure',
-      professional: 'Maria Garcia',
-      date: 'June 15, 10:00 AM',
-      price: '$45',
-      status: 'pending',
-    },
-    {
-      id: '3',
-      service: 'Makeup',
-      professional: 'Emily Chen',
-      date: 'June 10, 5:00 PM',
-      price: '$85',
-      status: 'completed',
-    },
-    {
-      id: '4',
-      service: 'Skincare Facial',
-      professional: 'Jessica Williams',
-      date: 'May 28, 3:30 PM',
-      price: '$120',
-      status: 'completed',
-    },
-  ];
+  const { bookings, loading, error, patch } = useCustomerBookings();
+  const [tab, setTab] = useState<Tab>('All');
+
+  const filtered = useMemo(
+    () => bookings.filter((b) => tab === 'All' || bookingGroup(b.status) === (tab as BookingGroup)),
+    [bookings, tab]
+  );
 
   return (
     <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-4xl">
-        <div className="mb-8">
-          <h1 className="h1 text-fg">My Bookings</h1>
-          <p className="text-muted mt-2">View and manage all your appointments</p>
-        </div>
+        <h1 className="h1 text-fg mb-2">My Bookings</h1>
+        <p className="text-muted mb-6">Track and manage your appointments</p>
 
-        {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-border">
-          {['All', 'Upcoming', 'Completed', 'Cancelled'].map((tab) => (
+        <div className="mb-6 flex gap-2">
+          {TABS.map((t) => (
             <button
-              key={tab}
-              className={`px-4 py-3 font-semibold border-b-2 transition-colors ${
-                tab === 'All'
-                  ? 'border-accent text-accent'
-                  : 'border-transparent text-muted hover:text-fg'
+              key={t}
+              onClick={() => setTab(t)}
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                tab === t ? 'bg-accent text-accent-fg' : 'text-muted hover:bg-surface-2'
               }`}
             >
-              {tab}
+              {t}
             </button>
           ))}
         </div>
 
-        {/* Bookings List */}
-        <div className="space-y-4">
-          {bookings.map((booking) => (
-            <Card key={booking.id} hoverable>
-              <CardBody>
-                <div className="flex items-center justify-between">
-                  {/* Left Info */}
-                  <div className="flex-1">
-                    <div className="flex items-center gap-4">
-                      <div className="text-3xl">💇</div>
-                      <div>
-                        <h3 className="font-semibold text-fg">
-                          {booking.service}
-                        </h3>
-                        <p className="text-sm text-muted">
-                          with {booking.professional}
-                        </p>
-                        <p className="text-sm text-muted mt-1">
-                          {booking.date}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+        {error && <div className="mb-4 rounded-lg border border-danger/30 bg-danger/10 p-4 text-danger">{error}</div>}
 
-                  {/* Right Actions */}
-                  <div className="flex flex-col items-end gap-3">
-                    <div className="text-right">
-                      <p className="font-semibold text-fg">
-                        {booking.price}
-                      </p>
-                      <Badge
-                        variant={
-                          booking.status === 'confirmed'
-                            ? 'success'
-                            : booking.status === 'completed'
-                              ? 'info'
-                              : 'warning'
-                        }
-                        size="sm"
-                      >
-                        {booking.status.charAt(0).toUpperCase() +
-                          booking.status.slice(1)}
-                      </Badge>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
-                        Details
-                      </Button>
-                      {booking.status === 'confirmed' && (
-                        <Button size="sm" variant="ghost">
-                          Cancel
-                        </Button>
-                      )}
-                      {booking.status === 'completed' && (
-                        <Button size="sm">Review</Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          ))}
-        </div>
-
-        {/* Empty State */}
-        {bookings.length === 0 && (
+        {loading ? (
+          <div className="space-y-3">
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        ) : filtered.length === 0 ? (
           <EmptyState
-            title="No bookings yet"
-            description="When you book a service, your upcoming and past appointments will show up here."
-            action={<Button>Book an Appointment</Button>}
+            icon="📅"
+            title="No bookings here"
+            description="When you book an appointment it'll show up in this list."
+            action={<Link href="/book"><Button>Book an appointment</Button></Link>}
           />
+        ) : (
+          <StaggerGroup className="space-y-3">
+            {filtered.map((b) => (
+              <StaggerItem key={b.id}>
+                <BookingRow booking={b} onChanged={patch} />
+              </StaggerItem>
+            ))}
+          </StaggerGroup>
         )}
       </div>
     </main>
