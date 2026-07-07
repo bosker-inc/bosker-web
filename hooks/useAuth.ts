@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { User } from '@/lib/types';
 import { customerLogin, customerRegister, technicianLogin } from '@/lib/auth-api';
-import { clearSession, getSession, setSession, type AuthSession } from '@/lib/auth-storage';
+import { clearSession, decodeJwtId, getSession, setSession, type AuthSession } from '@/lib/auth-storage';
 
 const now = () => new Date().toISOString();
 
@@ -48,7 +48,7 @@ export function useAuth() {
         }
         const res = await customerLogin(identifier, password);
         const u: User = {
-          id: 'me',
+          id: decodeJwtId(res.accessToken) ?? 'me',
           email: identifier,
           name: identifier,
           role: 'customer',

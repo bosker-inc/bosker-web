@@ -53,3 +53,24 @@ export function clearSession(): void {
 export function getToken(): string | null {
   return getSession()?.accessToken ?? null;
 }
+
+/** The signed-in user's id (used e.g. as the notification subscription filter). */
+export function getUserId(): string | null {
+  return getSession()?.user.id ?? null;
+}
+
+/**
+ * Best-effort decode of the `id` claim from a JWT payload (base64url middle
+ * segment). Used to recover the real customer id, which the customer login
+ * response does not include but the token does.
+ */
+export function decodeJwtId(token: string): string | null {
+  try {
+    const payload = token.split('.')[1];
+    const json = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    const claims = JSON.parse(json) as { id?: string; sub?: string };
+    return claims.id ?? claims.sub ?? null;
+  } catch {
+    return null;
+  }
+}

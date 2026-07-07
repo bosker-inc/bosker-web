@@ -84,6 +84,20 @@ export type BffBookingStatus =
   | 'TECHNICIAN_ABORTED'
   | 'NO_TECHNICIAN_FOUND';
 
+// Notification as returned by the BFF (AdminNotification). Read state is per-user:
+// a notification is read iff read_by includes the viewer's id.
+export interface AppNotification {
+  id: string;
+  title: string;
+  content: string;
+  type: 'info' | 'success' | 'warning' | 'error';
+  receiver_type: string;
+  receiver_ids: string[];
+  read_by: string[];
+  sent_date: string;
+  created_at: string | null;
+}
+
 // Shape of BookingItem returned by the BFF (snake_case, mirrors the GraphQL type).
 export interface BffBooking {
   id: string;

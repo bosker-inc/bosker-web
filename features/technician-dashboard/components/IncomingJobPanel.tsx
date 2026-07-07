@@ -1,7 +1,10 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { BffBooking } from '@/lib/types';
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 import {
   TechnicianProfile,
   TECHNICIAN_ACTIVE_BOOKING_SUBSCRIPTION,
@@ -27,6 +30,7 @@ export function IncomingJobPanel() {
   const [ready, setReady] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     let active = true;
@@ -102,33 +106,51 @@ export function IncomingJobPanel() {
       <CardBody className="space-y-4">
         {error && <p className="text-danger text-sm">{error}</p>}
 
-        {!booking && <p className="text-muted">No active job. You&apos;ll be notified when a booking is offered.</p>}
+        {/* Offer arrival / status change animates in and out */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={booking?.status ?? 'empty'}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.97 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.97 }}
+            transition={{ duration: 0.3, ease: EASE }}
+          >
+            {!booking && (
+              <p className="text-muted">No active job. You&apos;ll be notified when a booking is offered.</p>
+            )}
 
-        {booking && booking.status === 'FIND_TECHNICIAN' && (
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Badge>New offer</Badge>
-              <span className="text-fg font-medium">Booking {booking.id.slice(0, 8)}</span>
-            </div>
-            <p className="text-sm text-muted">
-              {booking.state ?? '—'} · {booking.scheduled_start ?? 'flexible time'}
-            </p>
-            <div className="flex gap-3">
-              <Button onClick={onAccept} isLoading={busy}>Accept</Button>
-              <Button variant="outline" onClick={onReject} isLoading={busy}>Decline</Button>
-            </div>
-          </div>
-        )}
+            {booking && booking.status === 'FIND_TECHNICIAN' && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <motion.span
+                    animate={reduce ? undefined : { scale: [1, 1.08, 1] }}
+                    transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    <Badge>New offer</Badge>
+                  </motion.span>
+                  <span className="text-fg font-medium">Booking {booking.id.slice(0, 8)}</span>
+                </div>
+                <p className="text-sm text-muted">
+                  {booking.state ?? '—'} · {booking.scheduled_start ?? 'flexible time'}
+                </p>
+                <div className="flex gap-3">
+                  <Button onClick={onAccept} isLoading={busy}>Accept</Button>
+                  <Button variant="outline" onClick={onReject} isLoading={busy}>Decline</Button>
+                </div>
+              </div>
+            )}
 
-        {booking && booking.status === 'IN_PROGRESS' && (
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Badge variant="success">In progress</Badge>
-              <span className="text-fg font-medium">Booking {booking.id.slice(0, 8)}</span>
-            </div>
-            <Button onClick={onDone} isLoading={busy}>Mark done</Button>
-          </div>
-        )}
+            {booking && booking.status === 'IN_PROGRESS' && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <Badge variant="success">In progress</Badge>
+                  <span className="text-fg font-medium">Booking {booking.id.slice(0, 8)}</span>
+                </div>
+                <Button onClick={onDone} isLoading={busy}>Mark done</Button>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </CardBody>
     </Card>
   );

@@ -1,9 +1,12 @@
 'use client';
 
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { BffBookingStatus } from '@/lib/types';
 import { useBookingStatus } from '@/hooks/useBookingStatus';
 import { Card, CardBody } from '@/components/Card';
 import { Button } from '@/components/Button';
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 // How each booking status renders on the customer's live status screen.
 const STATUS_VIEW: Record<
@@ -50,6 +53,7 @@ function viewFor(status: BffBookingStatus) {
 
 export function BookingStatusView({ bookingId }: { bookingId: string }) {
   const { booking, error } = useBookingStatus(bookingId);
+  const reduce = useReducedMotion();
 
   if (error) {
     return (
@@ -77,19 +81,32 @@ export function BookingStatusView({ bookingId }: { bookingId: string }) {
 
   return (
     <Card variant="emphasis">
-      <CardBody className="space-y-4 text-center py-10">
-        {view.tone === 'progress' && (
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-accent/30 border-t-accent" />
-        )}
-        <h2 className={`text-2xl font-bold ${toneClass}`}>{view.title}</h2>
-        <p className="text-muted">{view.detail}</p>
-        <p className="text-xs text-muted">Booking {booking.id} · {booking.status}</p>
+      <CardBody className="py-10">
+        {/* Crossfade each time the live booking status changes */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={booking.status}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }}
+            animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: EASE }}
+            className="space-y-4 text-center"
+          >
+            {view.tone === 'progress' && (
+              <div className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-accent/30 border-t-accent" />
+            )}
+            {view.tone === 'success' && <div className="text-5xl">🎉</div>}
+            <h2 className={`text-2xl font-bold ${toneClass}`}>{view.title}</h2>
+            <p className="text-muted">{view.detail}</p>
+            <p className="text-xs text-muted">Booking {booking.id} · {booking.status}</p>
 
-        {(booking.status === 'NO_TECHNICIAN_FOUND' || booking.status === 'COMPLETED') && (
-          <Button variant="outline" onClick={() => (window.location.href = '/book')}>
-            Book again
-          </Button>
-        )}
+            {(booking.status === 'NO_TECHNICIAN_FOUND' || booking.status === 'COMPLETED') && (
+              <Button variant="outline" onClick={() => (window.location.href = '/book')}>
+                Book again
+              </Button>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </CardBody>
     </Card>
   );

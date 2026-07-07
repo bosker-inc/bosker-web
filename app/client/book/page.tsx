@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Card, CardBody, CardHeader } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { BookingStatusView } from '@/features/booking/components/BookingStatusView';
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 import {
   CategoryWithServices,
   getCategoriesWithServices,
@@ -17,6 +20,7 @@ type Step = 'service' | 'location' | 'time' | 'summary';
 const STEPS: Step[] = ['service', 'location', 'time', 'summary'];
 
 export default function BookPage() {
+  const reduce = useReducedMotion();
   const [step, setStep] = useState<Step>('service');
   const [categories, setCategories] = useState<CategoryWithServices[]>([]);
   const [serviceId, setServiceId] = useState<string>('');
@@ -79,9 +83,18 @@ export default function BookPage() {
     <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-xl mx-auto">
         <h1 className="h1 text-fg mb-2">Book an appointment</h1>
-        <p className="text-muted mb-6 capitalize">
+        <p className="text-muted mb-2 capitalize">
           Step {STEPS.indexOf(step) + 1} of {STEPS.length}: {step}
         </p>
+        {/* Animated progress bar */}
+        <div className="mb-6 h-1.5 w-full overflow-hidden rounded-full bg-surface-2">
+          <motion.div
+            className="h-full rounded-full bg-accent"
+            initial={false}
+            animate={{ width: `${((STEPS.indexOf(step) + 1) / STEPS.length) * 100}%` }}
+            transition={{ duration: reduce ? 0 : 0.4, ease: EASE }}
+          />
+        </div>
 
         {error && (
           <div className="mb-4 p-4 bg-danger/10 border border-danger/30 rounded-lg text-danger">{error}</div>
@@ -92,6 +105,15 @@ export default function BookPage() {
             <h2 className="font-semibold text-fg capitalize">{step}</h2>
           </CardHeader>
           <CardBody className="space-y-4">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={step}
+                initial={reduce ? { opacity: 0 } : { opacity: 0, x: 24 }}
+                animate={reduce ? { opacity: 1 } : { opacity: 1, x: 0 }}
+                exit={reduce ? { opacity: 0 } : { opacity: 0, x: -24 }}
+                transition={{ duration: 0.28, ease: EASE }}
+                className="space-y-4"
+              >
             {step === 'service' && (
               <div className="space-y-3">
                 {categories.length === 0 && <p className="text-muted">Loading services…</p>}
@@ -156,6 +178,8 @@ export default function BookPage() {
                 <p className="text-xs text-muted">Payment is skipped in this preview.</p>
               </div>
             )}
+              </motion.div>
+            </AnimatePresence>
           </CardBody>
         </Card>
 
