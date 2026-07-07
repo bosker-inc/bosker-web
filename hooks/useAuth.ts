@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { User } from '@/lib/types';
-import { customerLogin, customerRegister, technicianLogin } from '@/lib/auth-api';
+import { customerLogin, customerLogout, customerRegister, technicianLogin, technicianLogout } from '@/lib/auth-api';
 import { clearSession, decodeJwtId, getSession, setSession, type AuthSession } from '@/lib/auth-storage';
 
 const now = () => new Date().toISOString();
@@ -99,6 +99,10 @@ export function useAuth() {
   );
 
   const logout = useCallback(async () => {
+    // Best-effort server logout (role-appropriate), then clear the local session.
+    const role = getSession()?.user.role;
+    if (role === 'technician') await technicianLogout();
+    else await customerLogout();
     clearSession();
     setUser(null);
     setError(null);

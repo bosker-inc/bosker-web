@@ -1,14 +1,19 @@
 'use client';
 
 import { useEffect } from 'react';
-import { clearSession } from '@/lib/auth-storage';
+import { useAuth } from '@/hooks/useAuth';
 import { buildRootUrl } from '@/lib/subdomain';
 
-/** Clears the session and bounces to the login page. Shared by both portals. */
+/** Runs a real (best-effort) logout, then bounces to login. Shared by both portals. */
 export function LogoutView() {
+  const { logout } = useAuth();
+
   useEffect(() => {
-    clearSession();
-    window.location.href = buildRootUrl('/login');
+    void logout().finally(() => {
+      window.location.href = buildRootUrl('/login');
+    });
+    // logout is stable enough; run once on mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

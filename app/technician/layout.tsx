@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { SidebarNav, type SidebarItem } from '@/components/SidebarNav';
 import { RequireAuth } from '@/components/RequireAuth';
-import { NotificationBell } from '@/components/NotificationBell';
+import { PortalHeader } from '@/components/PortalHeader';
 
 const ITEMS: SidebarItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: '📊' },
@@ -25,9 +25,7 @@ export default function TechnicianLayout({
       <div className="flex min-h-screen bg-bg">
         <SidebarNav brand="Bosker" items={ITEMS} footerItems={FOOTER} />
         <div className="flex-1">
-          <div className="flex items-center justify-end border-b border-border bg-surface/60 px-6 py-3 backdrop-blur">
-            <NotificationBell />
-          </div>
+          <PortalHeader brand="Bosker" items={ITEMS} footerItems={FOOTER} />
           {children}
         </div>
       </div>
