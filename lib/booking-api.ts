@@ -57,6 +57,14 @@ export async function updateBookingStatus(id: string, status: BffBookingStatus):
   return data.updateBookingStatus;
 }
 
+export async function getCustomerBookings(limit = 20, offset = 0): Promise<BffBooking[]> {
+  const data = await request<{ getCustomerBookings: BffBooking[] }>(
+    `query ($pagination: PaginationField) { getCustomerBookings(pagination: $pagination) { ${BOOKING_FIELDS} } }`,
+    { pagination: { limit, offset } }
+  );
+  return data.getCustomerBookings;
+}
+
 export async function getBookingById(id: string): Promise<BffBooking> {
   const data = await request<{ getBookingById: BffBooking }>(
     `query ($id: String!) { getBookingById(id: $id) { ${BOOKING_FIELDS} } }`,

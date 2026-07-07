@@ -19,6 +19,16 @@ export const portalLoginSchema = z.object({
 
 export type PortalLoginInput = z.infer<typeof portalLoginSchema>;
 
+// Customer profile edit
+export const profileSchema = z.object({
+  firstName: z.string().min(1, 'Required'),
+  lastName: z.string().min(1, 'Required'),
+  email: z.string().email('Invalid email').optional().or(z.literal('')),
+  phoneNumber: z.string().optional().or(z.literal('')),
+});
+
+export type ProfileInput = z.infer<typeof profileSchema>;
+
 export const signupSchema = z
   .object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
