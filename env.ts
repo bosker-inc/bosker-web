@@ -4,11 +4,11 @@ const envSchema = z.object({
   NEXT_PUBLIC_APP_URL: z.string().url().default('http://localhost:3000'),
   NEXT_PUBLIC_APP_NAME: z.string().default('Bosker'),
   NEXT_PUBLIC_ROOT_DOMAIN: z.string().default('localhost:3000'),
-  NEXT_PUBLIC_BFF_URL: z.string().url().default('http://localhost:3001/graphql'),
+  NEXT_PUBLIC_BFF_URL: z.string().url().default('http://localhost:3001/gql'),
   // REST base for the BFF auth endpoints (/auth/login, /technician-auth/*).
   NEXT_PUBLIC_BFF_HTTP_URL: z.string().url().default('http://localhost:3001'),
   // graphql-ws endpoint for realtime booking/technician subscriptions.
-  NEXT_PUBLIC_BFF_WS_URL: z.string().default('ws://localhost:3001/graphql'),
+  NEXT_PUBLIC_BFF_WS_URL: z.string().default('ws://localhost:3001/gql'),
   NEXT_PUBLIC_API_TIMEOUT: z.coerce.number().default(10000),
   NEXT_PUBLIC_GA_ID: z.string().optional(),
   NEXT_PUBLIC_ENABLE_CHAT: z.enum(['true', 'false']).default('false'),

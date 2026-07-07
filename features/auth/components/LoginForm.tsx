@@ -28,7 +28,7 @@ export function LoginForm() {
   const onSubmit = async (data: PortalLoginInput) => {
     setError(null);
     try {
-      const user = await login(data.identifier, data.password, data.role);
+      const { user } = await login(data.identifier, data.password, data.role);
       const portal = user.role === 'technician' ? 'technician' : 'client';
       window.location.href = buildSubdomainUrl(portal, '/dashboard');
     } catch (err) {

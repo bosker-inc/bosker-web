@@ -15,6 +15,7 @@ export function RequireAuth({ role, children }: { role: User['role']; children: 
   const [ok, setOk] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // Fall back to standard session check (rehydrates from cookie automatically if needed)
     const session = getSession();
     if (!session || (role && session.user.role !== role)) {
       window.location.href = buildRootUrl('/login');

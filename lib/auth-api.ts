@@ -29,17 +29,21 @@ async function postJson<T>(path: string, body: unknown): Promise<T> {
 }
 
 export async function customerLogin(phone: string, password: string): Promise<TokenPair> {
-  const data = await postJson<{ access_token: string; refresh_token: string }>('/auth/login', { phone, password });
-  return { accessToken: data.access_token, refreshToken: data.refresh_token };
+  const response = await postJson<any>('/auth/login', { phone, password });
+  const innerData = response?.data || response;
+  const tokenSet = innerData?.tokenSet || innerData;
+  return { accessToken: tokenSet?.access_token, refreshToken: tokenSet?.refresh_token };
 }
 
 export async function customerRegister(phone: string, password: string, name?: string): Promise<TokenPair> {
-  const data = await postJson<{ access_token: string; refresh_token: string }>('/auth/register', {
+  const response = await postJson<any>('/auth/register', {
     phone,
     password,
     name,
   });
-  return { accessToken: data.access_token, refreshToken: data.refresh_token };
+  const innerData = response?.data || response;
+  const tokenSet = innerData?.tokenSet || innerData;
+  return { accessToken: tokenSet?.access_token, refreshToken: tokenSet?.refresh_token };
 }
 
 type TechnicianAuthResponse = {

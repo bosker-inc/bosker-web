@@ -44,7 +44,7 @@ export function useAuth() {
             updatedAt: now(),
           };
           persist({ user: u, accessToken: res.accessToken, refreshToken: res.refreshToken });
-          return u;
+          return { user: u, accessToken: res.accessToken };
         }
         const res = await customerLogin(identifier, password);
         const u: User = {
@@ -56,7 +56,7 @@ export function useAuth() {
           updatedAt: now(),
         };
         persist({ user: u, accessToken: res.accessToken, refreshToken: res.refreshToken });
-        return u;
+        return { user: u, accessToken: res.accessToken };
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Login failed');
         throw err;
