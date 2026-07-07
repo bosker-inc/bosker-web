@@ -1,9 +1,12 @@
 import { ReactNode } from 'react';
 import { SidebarNav, type SidebarItem } from '@/components/SidebarNav';
+import { RequireAuth } from '@/components/RequireAuth';
+import { PortalHeader } from '@/components/PortalHeader';
 
 const ITEMS: SidebarItem[] = [
   { href: '/dashboard', label: 'Dashboard', icon: '📊' },
   { href: '/bookings', label: 'My Bookings', icon: '📅' },
+  { href: '/notifications', label: 'Notifications', icon: '🔔' },
   { href: '/favorites', label: 'Favorites', icon: '❤️' },
   { href: '/profile', label: 'Profile', icon: '👤' },
   { href: '/settings', label: 'Settings', icon: '⚙️' },
@@ -15,9 +18,14 @@ const FOOTER: SidebarItem[] = [
 
 export default function CustomerLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen bg-bg">
-      <SidebarNav brand="Bosker" items={ITEMS} footerItems={FOOTER} />
-      <div className="flex-1">{children}</div>
-    </div>
+    <RequireAuth role="customer">
+      <div className="flex min-h-screen bg-bg">
+        <SidebarNav brand="Bosker" items={ITEMS} footerItems={FOOTER} />
+        <div className="flex-1">
+          <PortalHeader brand="Bosker" items={ITEMS} footerItems={FOOTER} />
+          {children}
+        </div>
+      </div>
+    </RequireAuth>
   );
 }

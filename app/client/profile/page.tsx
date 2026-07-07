@@ -1,133 +1,96 @@
-import { Metadata } from 'next';
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { profileSchema, type ProfileInput } from '@/lib/validation';
+import { getUserProfile, updateUserProfile } from '@/lib/customer-api';
 import { Card, CardBody, CardHeader } from '@/components/Card';
 import { Input } from '@/components/Input';
 import { Button } from '@/components/Button';
-
-export const metadata: Metadata = {
-  title: 'Profile',
-  description: 'Manage your profile',
-};
+import { Avatar } from '@/components/Avatar';
+import { SkeletonCard } from '@/components/Skeleton';
 
 export default function ProfilePage() {
+  const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [avatar, setAvatar] = useState<string | null>(null);
+
+  const form = useForm<ProfileInput>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: { firstName: '', lastName: '', email: '', phoneNumber: '' },
+  });
+
+  useEffect(() => {
+    getUserProfile()
+      .then((p) => {
+        form.reset({
+          firstName: p.firstName ?? '',
+          lastName: p.lastName ?? '',
+          email: p.email ?? '',
+          phoneNumber: p.phoneNumber ?? '',
+        });
+        setAvatar(p.avatar);
+      })
+      .catch((e) => setError(e instanceof Error ? e.message : 'Failed to load profile'))
+      .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onSubmit = async (data: ProfileInput) => {
+    setSaved(false);
+    setError(null);
+    try {
+      await updateUserProfile({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email || undefined,
+        phoneNumber: data.phoneNumber || undefined,
+      });
+      setSaved(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not save profile');
+    }
+  };
+
+  const name = `${form.watch('firstName')} ${form.watch('lastName')}`.trim();
+
   return (
     <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-2xl">
-        <div className="mb-8">
-          <h1 className="h1 text-fg">My Profile</h1>
-          <p className="text-muted mt-2">Manage your account information</p>
-        </div>
+        <h1 className="h1 text-fg mb-6">Profile</h1>
 
-        <Card>
-          <CardHeader>
-            <h2 className="text-xl font-semibold text-fg">
-              Personal Information
-            </h2>
-          </CardHeader>
-          <CardBody>
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Input
-                  label="First Name"
-                  defaultValue="John"
-                  fullWidth
-                />
-                <Input
-                  label="Last Name"
-                  defaultValue="Doe"
-                  fullWidth
-                />
+        {loading ? (
+          <SkeletonCard />
+        ) : (
+          <Card>
+            <CardHeader className="flex items-center gap-4">
+              <Avatar src={avatar ?? undefined} initials={name || 'You'} size="lg" />
+              <div>
+                <p className="font-semibold text-fg">{name || 'Your name'}</p>
+                <p className="text-sm text-muted">{form.watch('email') || 'No email'}</p>
               </div>
+            </CardHeader>
+            <CardBody>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Input label="First Name" fullWidth {...form.register('firstName')} error={form.formState.errors.firstName?.message} />
+                  <Input label="Last Name" fullWidth {...form.register('lastName')} error={form.formState.errors.lastName?.message} />
+                  <Input label="Email" type="email" fullWidth {...form.register('email')} error={form.formState.errors.email?.message} />
+                  <Input label="Phone" fullWidth {...form.register('phoneNumber')} error={form.formState.errors.phoneNumber?.message} />
+                </div>
 
-              <Input
-                label="Email"
-                type="email"
-                defaultValue="john@example.com"
-                fullWidth
-              />
+                {error && <p className="text-sm text-danger">{error}</p>}
+                {saved && <p className="text-sm text-success">Profile saved ✓</p>}
 
-              <Input
-                label="Phone"
-                type="tel"
-                defaultValue="+1 (555) 123-4567"
-                fullWidth
-              />
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <Input
-                  label="City"
-                  defaultValue="San Francisco"
-                  fullWidth
-                />
-                <Input
-                  label="State"
-                  defaultValue="CA"
-                  fullWidth
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <Button>Save Changes</Button>
-                <Button variant="outline">Cancel</Button>
-              </div>
-            </form>
-          </CardBody>
-        </Card>
-
-        <Card className="mt-6">
-          <CardHeader>
-            <h2 className="text-xl font-semibold text-fg">
-              Preferences
-            </h2>
-          </CardHeader>
-          <CardBody className="space-y-4">
-            <label className="flex items-center gap-3">
-              <input type="checkbox" defaultChecked className="w-4 h-4" />
-              <span className="text-fg">
-                Receive appointment reminders
-              </span>
-            </label>
-            <label className="flex items-center gap-3">
-              <input type="checkbox" defaultChecked className="w-4 h-4" />
-              <span className="text-fg">
-                Receive promotional offers
-              </span>
-            </label>
-            <label className="flex items-center gap-3">
-              <input type="checkbox" className="w-4 h-4" />
-              <span className="text-fg">
-                Allow professionals to contact me
-              </span>
-            </label>
-          </CardBody>
-        </Card>
-
-        <Card className="mt-6">
-          <CardHeader>
-            <h2 className="text-xl font-semibold text-fg">
-              Change Password
-            </h2>
-          </CardHeader>
-          <CardBody>
-            <form className="space-y-6">
-              <Input
-                label="Current Password"
-                type="password"
-                fullWidth
-              />
-              <Input
-                label="New Password"
-                type="password"
-                fullWidth
-              />
-              <Input
-                label="Confirm Password"
-                type="password"
-                fullWidth
-              />
-              <Button>Update Password</Button>
-            </form>
-          </CardBody>
-        </Card>
+                <div className="flex gap-3">
+                  <Button type="submit" isLoading={form.formState.isSubmitting}>Save changes</Button>
+                </div>
+              </form>
+            </CardBody>
+          </Card>
+        )}
       </div>
     </main>
   );

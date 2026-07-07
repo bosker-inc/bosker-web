@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 import { Card, CardBody } from '@/components/Card';
-import { OptimizedImage } from '@/components/OptimizedImage';
+import { MotionImage } from '@/components/motion/MotionImage';
 import { Reveal } from '@/components/motion/Reveal';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
 import { StaggerGroup } from '@/components/motion/StaggerGroup';
 import { StaggerItem } from '@/components/motion/StaggerItem';
 import { CountUp } from '@/components/motion/CountUp';
@@ -51,18 +52,20 @@ export default function AboutPage() {
               </p>
             </Reveal>
 
-            <Reveal delay={0.15}>
-              <div className="relative aspect-[16/10] overflow-hidden rounded-3xl shadow-2xl ring-1 ring-black/5">
-                <OptimizedImage
-                  src={ABOUT_HERO}
-                  alt="The Bosker team collaborating in a bright studio"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
-            </Reveal>
+            <ScrollReveal delay={0.15} direction="up" zoom>
+              <MotionImage
+                src={ABOUT_HERO}
+                alt="The Bosker team collaborating in a bright studio"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="relative aspect-[16/10] overflow-hidden rounded-3xl shadow-2xl ring-1 ring-black/5"
+                imageClassName="object-cover"
+                hoverTilt
+                shineEffect
+                zoomScale={1.05}
+              />
+            </ScrollReveal>
           </div>
         </div>
       </section>

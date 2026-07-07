@@ -1,158 +1,119 @@
-import { Metadata } from 'next';
+'use client';
+
+import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { getUserProfile } from '@/lib/customer-api';
+import { getCategoriesWithServices, type CategoryWithServices } from '@/lib/booking-api';
+import { bookingGroup, statusBadgeVariant, statusLabel } from '@/lib/booking-status';
+import { useCustomerBookings } from '@/hooks/useCustomerBookings';
 import { Card, CardBody, CardHeader } from '@/components/Card';
 import { Badge } from '@/components/Badge';
+import { CountUp } from '@/components/motion/CountUp';
+import { SkeletonCard } from '@/components/Skeleton';
 
-export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Your Bosker dashboard',
-};
+function fmtDate(iso: string | null): string {
+  if (!iso) return 'Flexible time';
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime()) ? 'Flexible time' : d.toLocaleString();
+}
 
 export default function DashboardPage() {
+  const { bookings, loading } = useCustomerBookings();
+  const [firstName, setFirstName] = useState('');
+  const [categories, setCategories] = useState<CategoryWithServices[]>([]);
+
+  useEffect(() => {
+    getUserProfile().then((p) => setFirstName(p.firstName)).catch(() => {});
+    getCategoriesWithServices().then(setCategories).catch(() => {});
+  }, []);
+
+  const stats = useMemo(() => {
+    const upcoming = bookings.filter((b) => bookingGroup(b.status) === 'Upcoming');
+    const completed = bookings.filter((b) => bookingGroup(b.status) === 'Completed');
+    return { total: bookings.length, upcoming, completed: completed.length };
+  }, [bookings]);
+
   return (
     <main className="p-8 bg-bg min-h-screen">
       <div className="max-w-6xl">
-        {/* Welcome Header */}
         <div className="mb-8">
-          <h1 className="h1 text-fg">Welcome back! 👋</h1>
-          <p className="text-muted mt-2">Here&apos;s what&apos;s happening with your account</p>
+          <h1 className="h1 text-fg">Welcome back{firstName ? `, ${firstName}` : ''}! 👋</h1>
+          <p className="text-muted mt-2">Here&apos;s what&apos;s happening with your bookings</p>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid md:grid-cols-4 gap-6 mb-8">
+        {/* Stats (real counts; spend omitted — bookings carry no price) */}
+        <div className="grid gap-6 sm:grid-cols-3 mb-8">
           {[
-            { label: 'Total Bookings', value: '12', icon: '📅' },
-            { label: 'Upcoming', value: '2', icon: '⏰' },
-            { label: 'Favorites', value: '5', icon: '❤️' },
-            { label: 'Total Spent', value: '$340', icon: '💰' },
-          ].map((stat, i) => (
-            <Card key={i}>
+            { label: 'Total Bookings', value: stats.total, icon: '📅' },
+            { label: 'Upcoming', value: stats.upcoming.length, icon: '⏰' },
+            { label: 'Completed', value: stats.completed, icon: '✅' },
+          ].map((s) => (
+            <Card key={s.label}>
               <CardBody className="text-center space-y-2">
-                <div className="text-4xl">{stat.icon}</div>
+                <div className="text-4xl">{s.icon}</div>
                 <div className="h1 text-accent">
-                  {stat.value}
+                  <CountUp value={String(s.value)} />
                 </div>
-                <div className="text-sm text-muted">{stat.label}</div>
+                <div className="text-sm text-muted">{s.label}</div>
               </CardBody>
             </Card>
           ))}
         </div>
 
-        {/* Upcoming Appointments */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
-            <Card>
-              <CardHeader>
-                <h2 className="text-xl font-semibold text-fg">
-                  Upcoming Appointments
-                </h2>
-              </CardHeader>
-              <CardBody className="space-y-4">
-                {[
-                  {
-                    date: 'Tomorrow, 2:00 PM',
-                    service: 'Hair Color & Cut',
-                    professional: 'Sarah Johnson',
-                    status: 'confirmed',
-                  },
-                  {
-                    date: 'June 15, 10:00 AM',
-                    service: 'Manicure',
-                    professional: 'Maria Garcia',
-                    status: 'pending',
-                  },
-                ].map((appt, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between p-4 bg-surface-2 rounded-lg"
-                  >
+        <div className="grid gap-6 lg:grid-cols-2">
+          {/* Upcoming appointments */}
+          <Card>
+            <CardHeader className="flex items-center justify-between">
+              <h2 className="font-semibold text-fg">Upcoming appointments</h2>
+              <Link href="/bookings" className="text-sm text-accent hover:underline">View all</Link>
+            </CardHeader>
+            <CardBody className="space-y-3">
+              {loading ? (
+                <SkeletonCard />
+              ) : stats.upcoming.length === 0 ? (
+                <p className="text-muted">
+                  No upcoming appointments. <Link href="/book" className="text-accent hover:underline">Book one</Link>.
+                </p>
+              ) : (
+                stats.upcoming.slice(0, 4).map((b) => (
+                  <div key={b.id} className="flex items-center justify-between rounded-lg border border-border p-3">
                     <div>
-                      <p className="font-semibold text-fg">
-                        {appt.service}
-                      </p>
-                      <p className="text-sm text-muted">
-                        {appt.professional} • {appt.date}
-                      </p>
+                      <p className="font-medium text-fg">Booking {b.id.slice(0, 8)}</p>
+                      <p className="text-sm text-muted">{fmtDate(b.scheduled_start ?? b.scheduled_at)}</p>
                     </div>
-                    <Badge
-                      variant={
-                        appt.status === 'confirmed' ? 'success' : 'warning'
-                      }
-                    >
-                      {appt.status === 'confirmed'
-                        ? 'Confirmed'
-                        : 'Pending'}
-                    </Badge>
+                    <Badge variant={statusBadgeVariant(b.status)}>{statusLabel(b.status)}</Badge>
                   </div>
-                ))}
-              </CardBody>
-            </Card>
+                ))
+              )}
+            </CardBody>
+          </Card>
 
-            <Card>
-              <CardHeader>
-                <h2 className="text-xl font-semibold text-fg">
-                  Quick Actions
-                </h2>
-              </CardHeader>
-              <CardBody>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <a
-                    href="/services"
-                    className="p-4 bg-accent/10 hover:bg-accent/20 rounded-lg transition-colors text-accent font-semibold"
-                  >
-                    📅 Book New Appointment
-                  </a>
-                  <a
-                    href="/technicians"
-                    className="p-4 bg-accent/10 hover:bg-accent/20 rounded-lg transition-colors text-accent font-semibold"
-                  >
-                    🔍 Browse Professionals
-                  </a>
-                </div>
-              </CardBody>
-            </Card>
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <h3 className="font-semibold text-fg">
-                  Recent Reviews
-                </h3>
-              </CardHeader>
-              <CardBody className="space-y-4 text-sm">
-                <div className="pb-4 border-b border-border">
-                  <p className="font-semibold text-fg mb-1">
-                    Great experience!
-                  </p>
-                  <p className="text-muted">
-                    Sarah was amazing. Highly recommend!
-                  </p>
-                  <div className="mt-2 flex gap-1">⭐⭐⭐⭐⭐</div>
-                </div>
-              </CardBody>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <h3 className="font-semibold text-fg">
-                  Your Favorites
-                </h3>
-              </CardHeader>
-              <CardBody className="space-y-3 text-sm">
-                {['Sarah Johnson', 'Maria Garcia'].map((name, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center justify-between p-2 hover:bg-surface-2 rounded"
-                  >
-                    <span className="font-medium text-fg">{name}</span>
-                    <span>❤️</span>
+          {/* Quick actions + browse */}
+          <Card>
+            <CardHeader>
+              <h2 className="font-semibold text-fg">Quick actions</h2>
+            </CardHeader>
+            <CardBody className="space-y-3">
+              <Link href="/book" className="block rounded-lg bg-accent/10 p-4 font-semibold text-accent hover:bg-accent/20">
+                📅 Book New Appointment
+              </Link>
+              <Link href="/technicians" className="block rounded-lg bg-accent/10 p-4 font-semibold text-accent hover:bg-accent/20">
+                🔍 Browse Professionals
+              </Link>
+              {categories.length > 0 && (
+                <div className="pt-2">
+                  <p className="mb-2 text-sm font-medium text-muted">Popular services</p>
+                  <div className="flex flex-wrap gap-2">
+                    {categories.flatMap((c) => c.services).slice(0, 6).map((s) => (
+                      <Link key={s.id} href="/book" className="rounded-full border border-border px-3 py-1 text-sm text-fg hover:border-accent hover:text-accent">
+                        {s.name}
+                      </Link>
+                    ))}
                   </div>
-                ))}
-              </CardBody>
-            </Card>
-          </div>
+                </div>
+              )}
+            </CardBody>
+          </Card>
         </div>
       </div>
     </main>

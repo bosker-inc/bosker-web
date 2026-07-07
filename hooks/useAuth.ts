@@ -2,6 +2,10 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { User } from '@/lib/types';
+import { customerLogin, customerLogout, customerRegister, technicianLogin, technicianLogout } from '@/lib/auth-api';
+import { clearSession, decodeJwtId, getSession, setSession, type AuthSession } from '@/lib/auth-storage';
+
+const now = () => new Date().toISOString();
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -9,116 +13,110 @@ export function useAuth() {
   const [error, setError] = useState<string | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize auth from localStorage
+  // Rehydrate the session from storage on mount.
   useEffect(() => {
-    const stored = localStorage.getItem('auth_session');
-    if (stored) {
-      try {
-        const session = JSON.parse(stored);
-        setUser(session.user);
-      } catch {
-        localStorage.removeItem('auth_session');
-      }
-    }
+    setUser(getSession()?.user ?? null);
     setIsInitialized(true);
   }, []);
 
-  const login = useCallback(async (email: string, _password: string) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // TODO: Replace with actual GraphQL mutation
-      // Mock role detection: emails containing "tech" log in as technicians
-      const mockUser: User = {
-        id: '1',
-        email,
-        name: email.split('@')[0],
-        role: email.includes('tech') ? 'technician' : 'customer',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      const session = {
-        user: mockUser,
-        token: 'mock-token',
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-      };
-
-      localStorage.setItem('auth_session', JSON.stringify(session));
-      setUser(mockUser);
-      return mockUser;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
+  const persist = useCallback((session: AuthSession) => {
+    setSession(session);
+    setUser(session.user);
   }, []);
 
-  const signup = useCallback(async (
-    email: string,
-    _password: string,
-    name: string,
-    role: User['role'] = 'customer'
-  ) => {
-    setIsLoading(true);
-    setError(null);
+  /**
+   * Real login against the BFF auth endpoints. `identifier` is a phone for
+   * customers and a username for technicians; `role` selects the endpoint.
+   */
+  const login = useCallback(
+    async (identifier: string, password: string, role: User['role'] = 'customer') => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        if (role === 'technician') {
+          const res = await technicianLogin(identifier, password);
+          const u: User = {
+            id: res.technician.id,
+            email: '',
+            name: res.technician.name ?? res.technician.username,
+            role: 'technician',
+            createdAt: now(),
+            updatedAt: now(),
+          };
+          persist({ user: u, accessToken: res.accessToken, refreshToken: res.refreshToken });
+          return { user: u, accessToken: res.accessToken };
+        }
+        const res = await customerLogin(identifier, password);
+        const u: User = {
+          id: decodeJwtId(res.accessToken) ?? 'me',
+          email: identifier,
+          name: identifier,
+          role: 'customer',
+          createdAt: now(),
+          updatedAt: now(),
+        };
+        persist({ user: u, accessToken: res.accessToken, refreshToken: res.refreshToken });
+        return { user: u, accessToken: res.accessToken };
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Login failed');
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [persist]
+  );
 
-    try {
-      // TODO: Replace with actual GraphQL mutation
-      const mockUser: User = {
-        id: '1',
-        email,
-        name,
-        role,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      const session = {
-        user: mockUser,
-        token: 'mock-token',
-        expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
-      };
-
-      localStorage.setItem('auth_session', JSON.stringify(session));
-      setUser(mockUser);
-      return mockUser;
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Signup failed');
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  /**
+   * Customer self-registration (the booking actor). Registers against the BFF and
+   * persists the returned tokens. Technician onboarding uses an OTP flow handled
+   * elsewhere, so this signs up customers only.
+   */
+  const signup = useCallback(
+    async (identifier: string, password: string, name: string, _role: User['role'] = 'customer') => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const res = await customerRegister(identifier, password, name);
+        const u: User = {
+          id: 'me',
+          email: identifier,
+          name,
+          role: 'customer',
+          createdAt: now(),
+          updatedAt: now(),
+        };
+        persist({ user: u, accessToken: res.accessToken, refreshToken: res.refreshToken });
+        return u;
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Signup failed');
+        throw err;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [persist]
+  );
 
   const logout = useCallback(async () => {
-    localStorage.removeItem('auth_session');
+    // Best-effort server logout (role-appropriate), then clear the local session.
+    const role = getSession()?.user.role;
+    if (role === 'technician') await technicianLogout();
+    else await customerLogout();
+    clearSession();
     setUser(null);
     setError(null);
   }, []);
 
-  const updateProfile = useCallback(async (updates: Partial<User>) => {
-    if (!user) return;
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // TODO: Replace with actual GraphQL mutation
-      const updated = { ...user, ...updates };
-      setUser(updated);
-
-      const session = JSON.parse(localStorage.getItem('auth_session') || '{}');
-      session.user = updated;
-      localStorage.setItem('auth_session', JSON.stringify(session));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Profile update failed');
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [user]);
+  const updateProfile = useCallback(
+    async (updates: Partial<User>) => {
+      const session = getSession();
+      if (!session) return;
+      const updated = { ...session.user, ...updates, updatedAt: now() };
+      persist({ ...session, user: updated });
+    },
+    [persist]
+  );
 
   return {
     user,

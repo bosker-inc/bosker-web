@@ -5,7 +5,8 @@ import { Button } from '@/components/Button';
 import { StaggerGroup } from '@/components/motion/StaggerGroup';
 import { StaggerItem } from '@/components/motion/StaggerItem';
 import { MotionImage } from '@/components/motion/MotionImage';
-import { getServiceImage } from '@/lib/images';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
+import { getServiceImage, SERVICES_HERO } from '@/lib/images';
 
 export const metadata: Metadata = {
   title: 'Services',
@@ -27,14 +28,32 @@ export default function ServicesPage() {
   return (
     <main>
       {/* Header */}
-      <section className="bg-surface-2 bg-mesh py-12">
+      <section className="bg-surface-2 bg-mesh py-12 md:py-16 overflow-hidden">
         <div className="container">
-          <h1 className="h1 text-fg mb-4">
-            Beauty Services
-          </h1>
-          <p className="text-lg text-muted">
-            Explore all available beauty services and find the perfect professional
-          </p>
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <h1 className="h1 text-fg mb-4">
+                Beauty Services
+              </h1>
+              <p className="text-lg text-muted">
+                Explore all available beauty services, from hair styling to massage therapies, and connect with certified top-rated professionals in your area.
+              </p>
+            </div>
+            <ScrollReveal direction="left" delay={0.1}>
+              <MotionImage
+                src={SERVICES_HERO}
+                alt="Luxury salon and beauty spa interiors"
+                width={800}
+                height={350}
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="aspect-[21/9] w-full object-cover rounded-2xl shadow-xl ring-1 ring-black/5"
+                imageClassName="object-cover"
+                hoverTilt
+                shineEffect
+                zoomScale={1.04}
+              />
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
@@ -66,6 +85,9 @@ export default function ServicesPage() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="h-40 w-full"
                     imageClassName="h-40 w-full object-cover"
+                    hoverTilt
+                    shineEffect
+                    zoomScale={1.06}
                   />
                   <CardBody className="space-y-4 text-center">
                     <div>

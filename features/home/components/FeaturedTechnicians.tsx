@@ -1,6 +1,6 @@
 import { Card, CardBody } from '@/components/Card';
 import { Button } from '@/components/Button';
-import { OptimizedImage } from '@/components/OptimizedImage';
+import { MotionImage } from '@/components/motion/MotionImage';
 import { Reveal } from '@/components/motion/Reveal';
 import { StaggerGroup } from '@/components/motion/StaggerGroup';
 import { StaggerItem } from '@/components/motion/StaggerItem';
@@ -66,16 +66,17 @@ export function FeaturedTechnicians() {
                 className="h-full transition-transform duration-300 hover:-translate-y-1"
               >
                 <CardBody className="space-y-4 text-center">
-                  <div className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-4 ring-accent/20">
-                    <OptimizedImage
-                      src={getTechnicianImage(index)}
-                      alt={tech.name}
-                      width={200}
-                      height={200}
-                      sizes="96px"
-                      className="h-24 w-24 object-cover"
-                    />
-                  </div>
+                  <MotionImage
+                    src={getTechnicianImage(index)}
+                    alt={tech.name}
+                    width={200}
+                    height={200}
+                    sizes="96px"
+                    className="mx-auto h-24 w-24 overflow-hidden rounded-full ring-4 ring-accent/20"
+                    imageClassName="h-24 w-24 object-cover"
+                    zoomScale={1.1}
+                    hoverRotate={3}
+                  />
 
                   <div>
                     <h3 className="text-lg font-semibold text-fg">

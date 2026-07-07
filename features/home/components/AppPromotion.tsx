@@ -1,6 +1,7 @@
 import { Button } from '@/components/Button';
-import { OptimizedImage } from '@/components/OptimizedImage';
+import { MotionImage } from '@/components/motion/MotionImage';
 import { Reveal } from '@/components/motion/Reveal';
+import { ScrollReveal } from '@/components/motion/ScrollReveal';
 import { APP_PROMO_IMAGE } from '@/lib/images';
 
 export function AppPromotion() {
@@ -58,17 +59,19 @@ export function AppPromotion() {
           </Reveal>
 
           {/* Right Side - Visual */}
-          <Reveal delay={0.15} className="hidden md:flex justify-center">
-            <div className="relative aspect-[3/4] w-64 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/20">
-              <OptimizedImage
-                src={APP_PROMO_IMAGE}
-                alt="Customer booking a beauty appointment on the Bosker mobile app"
-                fill
-                sizes="256px"
-                className="object-cover"
-              />
-            </div>
-          </Reveal>
+          <ScrollReveal delay={0.15} direction="up" zoom className="hidden md:flex justify-center">
+            <MotionImage
+              src={APP_PROMO_IMAGE}
+              alt="Customer booking a beauty appointment on the Bosker mobile app"
+              fill
+              sizes="256px"
+              className="relative aspect-[3/4] w-64 overflow-hidden rounded-3xl shadow-2xl ring-1 ring-white/20"
+              imageClassName="object-cover"
+              hoverTilt
+              shineEffect
+              zoomScale={1.05}
+            />
+          </ScrollReveal>
         </div>
       </div>
     </section>

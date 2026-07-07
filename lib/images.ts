@@ -22,6 +22,12 @@ export const ABOUT_HERO = unsplash('1521590832167-7bcbfaa6381f', 1200, 700);
 // App promotion — phone / lifestyle
 export const APP_PROMO_IMAGE = unsplash('1512941937669-90a1b58e7e9c', 800, 900);
 
+// Contact page hero/workspace image
+export const CONTACT_IMAGE = unsplash('1629909613654-28e377c37b09', 1000, 1200);
+
+// Services directory header/hero image
+export const SERVICES_HERO = unsplash('1519699047748-de8e457a634e', 1200, 400);
+
 // Service categories (order matches the SERVICES arrays)
 export const SERVICE_IMAGES: Record<string, string> = {
   'Hair Styling': unsplash('1560869713-7d0a29430803', 600, 400),

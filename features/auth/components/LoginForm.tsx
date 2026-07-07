@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema, type LoginInput } from '@/lib/validation';
+import { portalLoginSchema, type PortalLoginInput } from '@/lib/validation';
 import { useAuth } from '@/hooks/useAuth';
 import { buildSubdomainUrl } from '@/lib/subdomain';
 import { Input } from '@/components/Input';
@@ -14,18 +14,21 @@ export function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const { login, isLoading } = useAuth();
 
-  const form = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<PortalLoginInput>({
+    resolver: zodResolver(portalLoginSchema),
     defaultValues: {
-      email: '',
+      identifier: '',
       password: '',
+      role: 'customer',
     },
   });
 
-  const onSubmit = async (data: LoginInput) => {
+  const role = form.watch('role');
+
+  const onSubmit = async (data: PortalLoginInput) => {
     setError(null);
     try {
-      const user = await login(data.email, data.password);
+      const { user } = await login(data.identifier, data.password, data.role);
       const portal = user.role === 'technician' ? 'technician' : 'client';
       window.location.href = buildSubdomainUrl(portal, '/dashboard');
     } catch (err) {
@@ -41,13 +44,29 @@ export function LoginForm() {
         </div>
       )}
 
+      {/* Portal toggle — selects which BFF auth endpoint to use */}
+      <div className="grid grid-cols-2 gap-2 rounded-lg bg-muted/10 p-1">
+        {(['customer', 'technician'] as const).map((r) => (
+          <button
+            key={r}
+            type="button"
+            onClick={() => form.setValue('role', r)}
+            className={`rounded-md py-2 text-sm font-medium capitalize transition-colors ${
+              role === r ? 'bg-accent text-white' : 'text-muted hover:text-foreground'
+            }`}
+          >
+            {r}
+          </button>
+        ))}
+      </div>
+
       <Input
-        label="Email"
-        type="email"
-        placeholder="you@example.com"
+        label={role === 'technician' ? 'Username' : 'Phone'}
+        type="text"
+        placeholder={role === 'technician' ? 'your-username' : '+84901234567'}
         fullWidth
-        {...form.register('email')}
-        error={form.formState.errors.email?.message}
+        {...form.register('identifier')}
+        error={form.formState.errors.identifier?.message}
       />
 
       <Input
@@ -59,34 +78,13 @@ export function LoginForm() {
         error={form.formState.errors.password?.message}
       />
 
-      <div className="flex items-center justify-between text-sm">
-        <label className="flex items-center gap-2">
-          <input type="checkbox" className="w-4 h-4" />
-          <span className="text-muted">Remember me</span>
-        </label>
-        <Link
-          href="/forgot-password"
-          className="text-accent hover:text-accent"
-        >
-          Forgot password?
-        </Link>
-      </div>
-
-      <Button
-        type="submit"
-        size="lg"
-        fullWidth
-        isLoading={isLoading}
-      >
+      <Button type="submit" size="lg" fullWidth isLoading={isLoading}>
         Sign In
       </Button>
 
       <p className="text-center text-muted">
-        Don't have an account?{' '}
-        <Link
-          href="/signup"
-          className="text-accent hover:text-accent font-semibold"
-        >
+        Don&apos;t have an account?{' '}
+        <Link href="/signup" className="text-accent hover:text-accent font-semibold">
           Sign up
         </Link>
       </p>

@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion, type Variants } from 'framer-motion';
 import { Button } from '@/components/Button';
-import { OptimizedImage } from '@/components/OptimizedImage';
+import { MotionImage } from '@/components/motion/MotionImage';
 import { HERO_IMAGE } from '@/lib/images';
 
 const TRUST = [
@@ -100,16 +100,18 @@ export function HeroSection() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
           >
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl ring-1 ring-black/5">
-              <OptimizedImage
-                src={HERO_IMAGE}
-                alt="Beauty professional styling a client's hair in a modern salon"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
+            <MotionImage
+              src={HERO_IMAGE}
+              alt="Beauty professional styling a client's hair in a modern salon"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-2xl ring-1 ring-black/5"
+              imageClassName="object-cover"
+              hoverTilt
+              shineEffect
+              zoomScale={1.06}
+            />
 
             {/* Floating rating badge */}
             <motion.div
