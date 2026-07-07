@@ -60,3 +60,7 @@ export const TESTIMONIAL_AVATARS: string[] = [
   portrait('1500648767791-00dcc994a43e', 200),
   portrait('1544725176-7c40e5a71c5e', 200),
 ];
+
+// Exposed builders so feature modules can compose their own image URLs
+// (e.g. portfolio before/after pairs) without hardcoding the CDN shape.
+export { unsplash as unsplashImage, portrait as portraitImage };

@@ -1,0 +1,132 @@
+[
+  {
+    "id": "1",
+    "slug": "2026-hair-color-trends",
+    "title": "The 2026 Hair Color Trends Everyone Will Be Asking For",
+    "excerpt": "From glazed brunettes to soft copper melts, here are the color directions defining salons this year — and how to know which suits you.",
+    "category": "Trends",
+    "tags": ["hair", "color", "trends"],
+    "author": {
+      "name": "Sarah Johnson",
+      "role": "Master Colorist",
+      "avatarUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&crop=faces&w=200&h=200&q=80"
+    },
+    "coverImage": "https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&w=1200&h=630&q=80",
+    "publishedAt": "2026-06-28",
+    "readingMinutes": 5,
+    "status": "published",
+    "content": [
+      { "type": "paragraph", "text": "Every year brings a fresh palette to the salon chair, and 2026 is all about warmth, dimension, and low-maintenance color that grows out beautifully. Clients are moving away from high-contrast looks toward blends that feel effortless." },
+      { "type": "heading", "text": "Glazed brunettes" },
+      { "type": "paragraph", "text": "A glossy, multi-tonal brunette remains the most requested look. The secret is a sheer gloss applied over subtle babylights, giving depth without the upkeep of full highlights." },
+      { "type": "heading", "text": "Soft copper melts" },
+      { "type": "paragraph", "text": "Copper continues its reign, but softened into a melt that fades from a rich root to a luminous mid-length. It flatters warm and neutral skin tones alike." },
+      { "type": "quote", "text": "The best color is the one you forget you are wearing — it just makes you look like the best version of yourself." },
+      { "type": "paragraph", "text": "Not sure which direction suits you? Book a consultation with a Bosker colorist who can match a shade to your skin tone, lifestyle, and maintenance appetite." }
+    ]
+  },
+  {
+    "id": "2",
+    "slug": "skincare-routine-that-actually-works",
+    "title": "Building a Skincare Routine That Actually Works",
+    "excerpt": "Forget the 12-step routines. A dermatology-informed guide to the four products that do the heavy lifting for real results.",
+    "category": "Skincare",
+    "tags": ["skincare", "routine", "guide"],
+    "author": {
+      "name": "Jessica Williams",
+      "role": "Licensed Esthetician",
+      "avatarUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&crop=faces&w=200&h=200&q=80"
+    },
+    "coverImage": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1200&h=630&q=80",
+    "publishedAt": "2026-06-20",
+    "readingMinutes": 6,
+    "status": "published",
+    "content": [
+      { "type": "paragraph", "text": "The internet loves a ten-step routine, but great skin rarely comes from doing more. It comes from doing the right things consistently. Here are the four pillars that matter." },
+      { "type": "heading", "text": "1. A gentle cleanser" },
+      { "type": "paragraph", "text": "Stripping your skin sets off a cascade of oil production and irritation. A pH-balanced, non-foaming cleanser keeps your barrier intact." },
+      { "type": "heading", "text": "2. Sunscreen, every day" },
+      { "type": "paragraph", "text": "If you do one thing, make it broad-spectrum SPF. It prevents the vast majority of visible aging and protects the results of any treatment you invest in." },
+      { "type": "quote", "text": "Consistency beats intensity. A simple routine you actually follow will outperform a complex one you abandon." },
+      { "type": "paragraph", "text": "Want a routine tailored to your skin? A Bosker esthetician can assess your skin type and build a plan around these fundamentals." }
+    ]
+  },
+  {
+    "id": "3",
+    "slug": "how-to-make-your-manicure-last",
+    "title": "How to Make Your Manicure Last Two Weeks",
+    "excerpt": "The prep steps and aftercare habits that separate a manicure that chips in three days from one that stays flawless for two weeks.",
+    "category": "Tips",
+    "tags": ["nails", "manicure", "tips"],
+    "author": {
+      "name": "Maria Garcia",
+      "role": "Nail Technician",
+      "avatarUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&crop=faces&w=200&h=200&q=80"
+    },
+    "coverImage": "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&h=630&q=80",
+    "publishedAt": "2026-06-12",
+    "readingMinutes": 4,
+    "status": "published",
+    "content": [
+      { "type": "paragraph", "text": "A long-lasting manicure is 80% preparation. The polish is almost the easy part — it is what happens before and after that determines how long your color survives daily life." },
+      { "type": "heading", "text": "Prep is everything" },
+      { "type": "paragraph", "text": "Dehydrating the nail plate before application removes the natural oils that cause lifting. A quality base coat then bonds the color to a clean surface." },
+      { "type": "heading", "text": "Aftercare habits" },
+      { "type": "paragraph", "text": "Cuticle oil is your best friend. Applied daily, it keeps the nail flexible so polish moves with your nail instead of cracking away from it." },
+      { "type": "quote", "text": "Treat your nails like jewelry, not tools, and your manicure will thank you." },
+      { "type": "paragraph", "text": "Book a gel set with a Bosker nail tech for the longest-lasting finish." }
+    ]
+  },
+  {
+    "id": "4",
+    "slug": "bridal-beauty-timeline",
+    "title": "The Bridal Beauty Timeline: What to Book and When",
+    "excerpt": "A month-by-month checklist so your hair, skin, and makeup all peak on the big day — with zero last-minute panic.",
+    "category": "News",
+    "tags": ["makeup", "bridal", "planning"],
+    "author": {
+      "name": "Emily Chen",
+      "role": "Makeup Artist",
+      "avatarUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&crop=faces&w=200&h=200&q=80"
+    },
+    "coverImage": "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1200&h=630&q=80",
+    "publishedAt": "2026-06-04",
+    "readingMinutes": 7,
+    "status": "published",
+    "content": [
+      { "type": "paragraph", "text": "The most radiant brides are not lucky — they are prepared. Spreading your beauty prep across the months before the wedding means every element peaks at the right moment." },
+      { "type": "heading", "text": "Six months out" },
+      { "type": "paragraph", "text": "Start any skincare treatments now. Facials and any corrective work need runway to show results and settle." },
+      { "type": "heading", "text": "One month out" },
+      { "type": "paragraph", "text": "Lock in your hair color and do a full makeup trial. This is the window to adjust, not the week of." },
+      { "type": "quote", "text": "The goal is to look like yourself on your wedding day — just the most luminous version." },
+      { "type": "paragraph", "text": "Bosker makes it easy to book your trial and big-day team with the same trusted professionals." }
+    ]
+  },
+  {
+    "id": "5",
+    "slug": "state-of-beauty-industry-2026",
+    "title": "The State of the Beauty Industry in 2026",
+    "excerpt": "On-demand booking, independent professionals, and a shift toward personalization — the forces reshaping how we experience beauty services.",
+    "category": "News",
+    "tags": ["industry", "news", "trends"],
+    "author": {
+      "name": "The Bosker Team",
+      "role": "Editorial",
+      "avatarUrl": "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&crop=faces&w=200&h=200&q=80"
+    },
+    "coverImage": "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&h=630&q=80",
+    "publishedAt": "2026-05-26",
+    "readingMinutes": 6,
+    "status": "published",
+    "content": [
+      { "type": "paragraph", "text": "The beauty industry is undergoing its biggest shift in a generation. Clients expect the same on-demand convenience from their stylist that they get from every other service in their lives." },
+      { "type": "heading", "text": "The rise of the independent professional" },
+      { "type": "paragraph", "text": "More talented professionals are going independent, building direct relationships with clients rather than working under a single salon's brand. Platforms that give them visibility and booking tools are accelerating the trend." },
+      { "type": "heading", "text": "Personalization at scale" },
+      { "type": "paragraph", "text": "Reviews, portfolios, and transparent pricing let clients find exactly the right professional for their needs — not just the closest one." },
+      { "type": "quote", "text": "The future of beauty is personal, portable, and built on trust between client and professional." },
+      { "type": "paragraph", "text": "Bosker exists to power that future — connecting customers with vetted professionals they can rely on." }
+    ]
+  }
+]
