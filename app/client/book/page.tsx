@@ -6,6 +6,7 @@ import { Card, CardBody, CardHeader } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Input } from '@/components/Input';
 import { BookingStatusView } from '@/features/booking/components/BookingStatusView';
+import { PaymentStep } from '@/features/booking/components/PaymentStep';
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 import {
@@ -16,8 +17,8 @@ import {
   updateBookingStatus,
 } from '@/lib/booking-api';
 
-type Step = 'service' | 'location' | 'time' | 'summary';
-const STEPS: Step[] = ['service', 'location', 'time', 'summary'];
+type Step = 'service' | 'location' | 'time' | 'summary' | 'payment';
+const STEPS: Step[] = ['service', 'location', 'time', 'summary', 'payment'];
 
 export default function BookPage() {
   const reduce = useReducedMotion();
@@ -33,6 +34,7 @@ export default function BookPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
 
   useEffect(() => {
     getCategoriesWithServices()
@@ -43,12 +45,19 @@ export default function BookPage() {
   const goNext = () => setStep(STEPS[Math.min(STEPS.indexOf(step) + 1, STEPS.length - 1)]);
   const goBack = () => setStep(STEPS[Math.max(STEPS.indexOf(step) - 1, 0)]);
 
-  const submit = async () => {
+  // From the summary: persist the booking draft and move it into PAYMENTS, then
+  // advance to the payment step. Idempotent — reuses the draft if we already
+  // created one (e.g. the customer stepped back from payment and returned).
+  const proceedToPayment = async () => {
     setSubmitting(true);
     setError(null);
     try {
-      const created = await initiateBooking(serviceId);
-      await updateBookingDetails(created.id, {
+      let id = bookingId;
+      if (!id) {
+        const created = await initiateBooking(serviceId);
+        id = created.id;
+      }
+      await updateBookingDetails(id, {
         service_ids: [serviceId],
         sub_services: [{ id: serviceId, name: serviceName }],
         state,
@@ -57,9 +66,9 @@ export default function BookPage() {
         scheduled_start: start ? new Date(start).toISOString() : undefined,
         scheduled_end: end ? new Date(end).toISOString() : undefined,
       });
-      // Skip PAYMENTS — go straight to dispatch.
-      await updateBookingStatus(created.id, 'FIND_TECHNICIAN');
-      setBookingId(created.id);
+      await updateBookingStatus(id, 'PAYMENTS');
+      setBookingId(id);
+      setStep('payment');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Could not create booking');
     } finally {
@@ -67,8 +76,21 @@ export default function BookPage() {
     }
   };
 
-  // Once submitted, hand off to the live status screen.
-  if (bookingId) {
+  // After a successful payment: dispatch to a technician and hand off to the
+  // live status screen.
+  const handlePaymentSuccess = async () => {
+    if (!bookingId) return;
+    setError(null);
+    try {
+      await updateBookingStatus(bookingId, 'FIND_TECHNICIAN');
+      setConfirmed(true);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Payment succeeded but dispatch failed. Please contact support.');
+    }
+  };
+
+  // Once confirmed, hand off to the live status screen.
+  if (confirmed && bookingId) {
     return (
       <main className="p-8 bg-bg min-h-screen">
         <div className="max-w-xl mx-auto">
@@ -175,28 +197,35 @@ export default function BookPage() {
                 <p><span className="text-muted">Service:</span> {serviceName || '—'}</p>
                 <p><span className="text-muted">Location:</span> {state} ({lat}, {long})</p>
                 <p><span className="text-muted">When:</span> {start || '—'} → {end || '—'}</p>
-                <p className="text-xs text-muted">Payment is skipped in this preview.</p>
+                <p className="text-xs text-muted">You&apos;ll pay securely with Stripe on the next step.</p>
               </div>
+            )}
+
+            {step === 'payment' && bookingId && (
+              <PaymentStep bookingId={bookingId} onSuccess={handlePaymentSuccess} onBack={goBack} />
             )}
               </motion.div>
             </AnimatePresence>
           </CardBody>
         </Card>
 
-        <div className="mt-6 flex justify-between">
-          <Button variant="ghost" onClick={goBack} disabled={step === 'service'}>
-            Back
-          </Button>
-          {step === 'summary' ? (
-            <Button onClick={submit} isLoading={submitting} disabled={!serviceId}>
-              Find a technician
+        {/* The payment step owns its own Back/Pay controls, so hide the wizard nav there. */}
+        {step !== 'payment' && (
+          <div className="mt-6 flex justify-between">
+            <Button variant="ghost" onClick={goBack} disabled={step === 'service'}>
+              Back
             </Button>
-          ) : (
-            <Button onClick={goNext} disabled={step === 'service' && !serviceId}>
-              Next
-            </Button>
-          )}
-        </div>
+            {step === 'summary' ? (
+              <Button onClick={proceedToPayment} isLoading={submitting} disabled={!serviceId}>
+                Continue to payment
+              </Button>
+            ) : (
+              <Button onClick={goNext} disabled={step === 'service' && !serviceId}>
+                Next
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </main>
   );
