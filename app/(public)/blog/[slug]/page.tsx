@@ -17,6 +17,10 @@ import {
 } from '@/features/blog/repository';
 import { formatDate } from '@/lib/utils';
 
+// BFF-backed content: revalidate periodically (ISR). Slugs added in the BFF
+// after build render on demand (dynamicParams defaults to true) and are cached.
+export const revalidate = 300;
+
 interface Params {
   params: Promise<{ slug: string }>;
 }

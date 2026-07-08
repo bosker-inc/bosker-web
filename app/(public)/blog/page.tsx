@@ -6,6 +6,10 @@ import { StaggerItem } from '@/components/motion/StaggerItem';
 import { PostCard } from '@/features/blog/components/PostCard';
 import { getAllPosts } from '@/features/blog/repository';
 
+// BFF-backed content: revalidate periodically so new/edited posts appear
+// without a full redeploy (ISR).
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   title: 'Blog',
   description:
