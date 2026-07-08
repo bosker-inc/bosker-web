@@ -10,17 +10,46 @@ const BOOKING_FIELDS = `
   created_at updated_at
 `;
 
+export interface SubServiceOption {
+  id: string;
+  name: string;
+  price?: number | null;
+}
+
+export interface ServiceWithSubServices {
+  id: string;
+  name: string;
+  subServices: SubServiceOption[];
+}
+
 export interface CategoryWithServices {
   id: string;
   name: string;
-  services: { id: string; name: string }[];
+  services: ServiceWithSubServices[];
 }
 
 export async function getCategoriesWithServices(): Promise<CategoryWithServices[]> {
   const data = await request<{ getAllCategoriesWithServices: CategoryWithServices[] }>(
-    `{ getAllCategoriesWithServices { id name services { id name } } }`
+    `{
+      getAllCategoriesWithServices {
+        id
+        name
+        services {
+          id
+          name
+          subServices { id name price }
+        }
+      }
+    }`
   );
-  return data.getAllCategoriesWithServices;
+  // subServices can come back null from the BFF when a service has none.
+  return (data.getAllCategoriesWithServices ?? []).map((cat) => ({
+    ...cat,
+    services: (cat.services ?? []).map((svc) => ({
+      ...svc,
+      subServices: svc.subServices ?? [],
+    })),
+  }));
 }
 
 export async function initiateBooking(serviceId?: string): Promise<BffBooking> {
