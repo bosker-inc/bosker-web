@@ -1,51 +1,66 @@
 import type { Post } from './types';
-import postsData from './posts.json';
+import seedData from './posts.json';
+import { fetchBlogPosts, fetchBlogPost } from '@/lib/blog-api';
 
 /**
  * Data-access layer for blog posts.
  *
- * Today this reads from a bundled JSON file (mock "database rows"). The
- * functions are async and expose a repository-style API so that migrating
- * to Prisma later touches ONLY this file — pages/components already await
- * these calls. Example future body:
+ * Posts come from the BFF (see lib/blog-api.ts), consistent with how the rest of
+ * the app fetches data. Until the BFF ships its blog resolvers — and any time the
+ * BFF is unreachable — these functions fall back to the bundled seed (posts.json)
+ * so the public /blog pages keep building and rendering. The fallback is logged,
+ * never silent, so a real outage is visible in logs.
  *
- *   export async function getAllPosts() {
- *     return prisma.post.findMany({
- *       where: { status: 'published' },
- *       orderBy: { publishedAt: 'desc' },
- *       include: { author: true },
- *     });
- *   }
+ * Callers (pages, sitemap) already await this module, so nothing above changes as
+ * the BFF endpoint comes online.
  */
 
-// JSON has no literal-union typing; assert to the domain model once here.
-const posts = postsData as Post[];
+const seedPosts = seedData as Post[];
 
 const byNewest = (a: Post, b: Post) =>
   new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
 
+const published = (posts: Post[]) =>
+  posts.filter((p) => p.status === 'published').sort(byNewest);
+
+function warnFallback(where: string, err: unknown) {
+  const message = err instanceof Error ? err.message : String(err);
+  console.warn(`[blog] BFF unavailable in ${where}; using seed data — ${message}`);
+}
+
 export async function getAllPosts(): Promise<Post[]> {
-  return posts.filter((p) => p.status === 'published').sort(byNewest);
+  try {
+    return published(await fetchBlogPosts());
+  } catch (err) {
+    warnFallback('getAllPosts', err);
+    return published(seedPosts);
+  }
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  return (
-    posts.find((p) => p.slug === slug && p.status === 'published') ?? null
-  );
+  try {
+    const post = await fetchBlogPost(slug);
+    // A null result is a genuine "not found", not a fallback trigger.
+    return post && post.status === 'published' ? post : null;
+  } catch (err) {
+    warnFallback('getPostBySlug', err);
+    return (
+      seedPosts.find((p) => p.slug === slug && p.status === 'published') ?? null
+    );
+  }
 }
 
 export async function getAllSlugs(): Promise<string[]> {
-  return posts
-    .filter((p) => p.status === 'published')
-    .map((p) => p.slug);
+  return (await getAllPosts()).map((p) => p.slug);
 }
 
 export async function getRelatedPosts(
   slug: string,
   limit = 3
 ): Promise<Post[]> {
-  const current = await getPostBySlug(slug);
-  const others = (await getAllPosts()).filter((p) => p.slug !== slug);
+  const all = await getAllPosts();
+  const current = all.find((p) => p.slug === slug) ?? null;
+  const others = all.filter((p) => p.slug !== slug);
   if (!current) return others.slice(0, limit);
 
   // Same category first, then fill with the newest remaining posts.
