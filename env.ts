@@ -14,6 +14,9 @@ const envSchema = z.object({
   // disabled with a clear message when this is blank.
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().default(''),
   NEXT_PUBLIC_GA_ID: z.string().optional(),
+  // Google Maps JS API key for the booking location picker. When absent, the
+  // picker falls back to manual latitude/longitude entry.
+  NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: z.string().optional(),
   NEXT_PUBLIC_ENABLE_CHAT: z.enum(['true', 'false']).default('false'),
   NEXT_PUBLIC_ENABLE_RATINGS: z.enum(['true', 'false']).default('true'),
   NEXT_PUBLIC_ENABLE_BOOKMARKS: z.enum(['true', 'false']).default('true'),
@@ -31,6 +34,7 @@ const env = envSchema.parse({
   NEXT_PUBLIC_API_TIMEOUT: process.env.NEXT_PUBLIC_API_TIMEOUT,
   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
   NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
+  NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
   NEXT_PUBLIC_ENABLE_CHAT: process.env.NEXT_PUBLIC_ENABLE_CHAT,
   NEXT_PUBLIC_ENABLE_RATINGS: process.env.NEXT_PUBLIC_ENABLE_RATINGS,
   NEXT_PUBLIC_ENABLE_BOOKMARKS: process.env.NEXT_PUBLIC_ENABLE_BOOKMARKS,

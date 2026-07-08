@@ -115,6 +115,20 @@ export interface BffBooking {
   updated_at: string;
 }
 
+// Address book entry as returned by the BFF (getCustomerAddressBook).
+export type BffAddressType = 'HOME' | 'OTHER';
+
+export interface BffAddress {
+  id: string;
+  userId: string;
+  alias: string;
+  fullAddress: string;
+  lat: number;
+  long: number;
+  type: BffAddressType;
+  isDefault: boolean;
+}
+
 // Review
 export interface Review {
   id: string;
