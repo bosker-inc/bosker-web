@@ -70,6 +70,11 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/portfolio" className="hover:text-fg transition">
+                  Portfolio
+                </Link>
+              </li>
+              <li>
                 <Link href="/how-it-works" className="hover:text-fg transition">
                   How It Works
                 </Link>
