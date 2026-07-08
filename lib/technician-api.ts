@@ -32,6 +32,14 @@ export async function toggleReady(isReady: boolean): Promise<boolean> {
   return data.toggleReady.isReady;
 }
 
+export async function getTechnicianBookings(limit = 20, offset = 0): Promise<BffBooking[]> {
+  const data = await request<{ getTechnicianBookings: BffBooking[] }>(
+    `query ($pagination: PaginationField) { getTechnicianBookings(pagination: $pagination) { ${BOOKING_FIELDS} } }`,
+    { pagination: { limit, offset } }
+  );
+  return data.getTechnicianBookings;
+}
+
 export async function acceptBooking(bookingId: string): Promise<BffBooking> {
   const data = await request<{ acceptBooking: BffBooking }>(
     `mutation ($bookingId: String!) { acceptBooking(bookingId: $bookingId) { ${BOOKING_FIELDS} } }`,

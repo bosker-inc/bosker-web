@@ -100,7 +100,16 @@ export function BookingStatusView({ bookingId }: { bookingId: string }) {
             <p className="text-muted">{view.detail}</p>
             <p className="text-xs text-muted">Booking {booking.id} · {booking.status}</p>
 
-            {(booking.status === 'NO_TECHNICIAN_FOUND' || booking.status === 'COMPLETED') && (
+            {/* Completion is technician-driven; the customer closes out the flow here. */}
+            {booking.status === 'COMPLETED' && (
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button onClick={() => (window.location.href = '/bookings')}>Close booking</Button>
+                <Button variant="outline" onClick={() => (window.location.href = '/book')}>
+                  Book again
+                </Button>
+              </div>
+            )}
+            {booking.status === 'NO_TECHNICIAN_FOUND' && (
               <Button variant="outline" onClick={() => (window.location.href = '/book')}>
                 Book again
               </Button>
